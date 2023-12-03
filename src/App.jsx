@@ -6,9 +6,12 @@ import SignUp from "./pages/SignUp/SignUp";
 import Mealplan from "./pages/Mealplan/Mealplan";
 import Groceries from "./pages/Groceries/Groceries";
 import { useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import {getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBar from "./components/NavBar/NavBar";
 import Profile from "./pages/Profile/Profile";
+import SignIn from "./pages/SignIn/SignIn";
+import Recipes from "./pages/Recipes/Recipes";
+import AddRecipe from "./pages/AddRecipe/AddRecipe";
 
 function App() {
     const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
@@ -44,6 +47,8 @@ function App() {
         <Route path="/mealplan" element={<Mealplan />} />
         <Route path="/groceries" element={<Groceries />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/recipes" element={<Recipes />} />
+        <Route path="/addrecipe" element={<AddRecipe />} />
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
@@ -55,6 +60,8 @@ function App() {
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/signin" element={<SignIn/>} />
+
       {/* <Route path="/login" element={<LogIn />} /> */}
 
       <Route path="*" element={<Navigate to="/" />} />

@@ -9,7 +9,7 @@ export default function Landing() {
         <img src={Potato}></img>
         <h1>POTATO</h1>
         <h2>SIMPLE MEAL PLAN</h2>
-        <Link className="button" to="/home">
+        <Link className="button" to="/signup">
           Yes please
         </Link>
       </section>

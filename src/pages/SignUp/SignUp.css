@@ -63,16 +63,6 @@ input {
     border: solid 2px var(--green);
 }
 
-.image-preview {
-    width: 100%;
-    max-width: 350px;
-    height: 200px;
-    object-fit: cover;
-    margin: 1em auto;
-    display: block;
-    cursor: pointer;
-}
-
 form .file-input {
     display: none;
 }
