@@ -1,0 +1,24 @@
+.logoLink {
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+    padding:0.2rem;
+    width:100%;
+    top:0;
+    position:fixed;
+    background-color: var(--light-teal);
+}
+
+.logoLink img {
+    height:6vh;
+    object-fit: contain;
+    padding-right:1rem;
+}
+
+.logoLink p, a{
+    font-family: var(--heading-font);
+    color: var(--dark-orange);
+    font-weight: 900;
+    font-size: 1rem;
+    text-decoration: none;
+}
