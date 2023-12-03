@@ -1,0 +1,78 @@
+/* ---------- form styling ---------- */
+
+form {
+    margin: auto;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    padding: 1em 1em 2em;
+    background-color: var(--white);
+    max-width: 380px;
+    animation: fadeIn 0.5s;
+}
+
+form button {
+    padding: 12px 15px;
+    font-size: 1em;
+    width: 100%;
+    max-width: 350px;
+}
+
+button {
+    font-weight: 300;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    color: var(--text-color-light);
+    background-color: var(--green);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.5em 1em;
+    font-size: 0.8em;
+    display: block;
+    margin: 1em auto 0;
+}
+
+button.btn-outline {
+    background-color: var(--light-green);
+    color: var(--green);
+    border: solid 2px var(--green);
+}
+
+button.light {
+    background-color: var(--light-green);
+    color: var(--green);
+}
+
+.btn-sign-out {
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    font-size: 0.7em;
+    padding: 2.032em 1em;
+}
+
+input {
+    margin: 1em auto;
+    width: 100%;
+    max-width: 350px;
+    padding: 1em;
+    box-sizing: border-box;
+    display: block;
+    background: var(--white);
+    border: solid 2px var(--green);
+}
+
+.image-preview {
+    width: 100%;
+    max-width: 350px;
+    height: 200px;
+    object-fit: cover;
+    margin: 1em auto;
+    display: block;
+    cursor: pointer;
+}
+
+form .file-input {
+    display: none;
+}

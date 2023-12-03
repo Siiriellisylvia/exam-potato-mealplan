@@ -1,15 +1,16 @@
 import NavBar from "../../components/NavBar/NavBar";
 import TopBar from "../../components/TopBar/TopBar";
+import "./Mealplan.css";
 
-export default function Home() {
+export default function Mealplan() {
   return (
     <>
       <TopBar />
       <section className="page">
-        <h1>Hey you</h1>
-        <p>What do you want to cook today?</p>
+        <h1>Meal plan</h1>
+        <p>Cool</p>
       </section>
       <NavBar />
-      </>
+    </>
   );
 }
