@@ -8,6 +8,7 @@ export default function Mealplan() {
       <TopBar />
       <section className="page">
         <h1>Meal plan</h1>
+
         <p>Cool</p>
       </section>
       <NavBar />
