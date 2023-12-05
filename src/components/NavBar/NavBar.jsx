@@ -4,8 +4,7 @@ import "./NavBar.css";
 export default function NavBar() {
   const location = useLocation();
 
-    const isHomeActive =
-      location.pathname === "/";
+  const isHomeActive = location.pathname === "/";
 
   return (
     <nav>

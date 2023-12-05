@@ -5,7 +5,6 @@ import { recipesRef } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import RecipeForm from "../../components/RecipeForm/RecipeForm";
-
 export default function AddRecipe() {
 
     const navigate = useNavigate();
@@ -15,15 +14,15 @@ export default function AddRecipe() {
         newRecipe.uid = auth.currentUser.uid; // uid of auth user / signed in user
         await addDoc(recipesRef, newRecipe); // add new doc - new post object
 
-        navigate("/");
+        navigate("/recipes");
     }
 
     return (
         <>
         <TopBar />
-        <section className="page">
+        <section className="page addrecipe">
             <h1>Add Recipe</h1>
-            <RecipeForm saveRecipe={createRecipe} />
+            <RecipeForm saveRecipe={createRecipe}  />
         </section>
         <NavBar />
         </>

@@ -37,7 +37,7 @@ export default function SignIn() {
           placeholder="Type your password"
         />
         <p className="text-error">{errorMessage}</p>
-        <button>Sign in</button>
+        <button className="button-primary">Sign in</button>
       </form>
       <p className="text-center">
         Don&apos;t have an account? <Link to="/signup">Sign Up</Link>

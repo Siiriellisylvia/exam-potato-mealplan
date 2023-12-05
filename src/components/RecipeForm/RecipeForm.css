@@ -1,0 +1,45 @@
+.addRecipe form {
+    margin: auto;
+    text-align: left;
+    background-color: var(--white);
+    animation: fadeIn 0.5s;
+}
+
+.addRecipe input {
+    margin: 1em auto;
+    width: 100%;
+    padding: 1em;
+    box-sizing: border-box;
+    display: block;
+    background: var(--off-white);
+    border: none;
+    border-radius: 8px;
+}
+
+.addRecipe label {
+    font-size: var(--subheading-size);
+    color:var(--dark-text);
+    font-weight: var(--font-weight-bold);
+}
+
+.addRecipe .image-preview {
+    width: calc(100% - 4px);
+    max-width: fill;
+    height: 200px;
+    object-fit: cover;
+    margin: 0.5em auto;
+    display: block;
+    cursor: pointer;
+    border: solid 2px var(--green);
+}
+
+.addRecipe .file-input {
+    display: none;
+}
+
+.ingredient-fields {
+    display: flex;
+    flex-direction: row;
+    margin: 1em auto;
+    gap:4px;
+}

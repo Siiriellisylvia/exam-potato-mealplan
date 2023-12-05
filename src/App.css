@@ -36,6 +36,8 @@ h1 {
   font-weight: var(--font-weight-bold);
   margin: 0;
   padding: 0;
+  text-align:center;
+  color:var(--dark-text)
 }
 
 h2 {
@@ -73,7 +75,7 @@ p {
 }
 
 .page {
-    padding-top: 7vh;
+    padding-top: 8vh;
     padding-bottom:10vh;
     padding-left:1rem;
     padding-right:1rem;
@@ -82,4 +84,27 @@ p {
 
 a {
   text-decoration: none;
+}
+
+.button-primary {
+  background-color: var(--dark-teal);
+  border: none;
+  border-radius: 8px;
+  color: var(--off-white);
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.button-yellow {
+  background-color: var(--dark-orange);
+}
+
+.button-rounded{
+  border-radius: 36px;
+  padding:0.5rem;
 }

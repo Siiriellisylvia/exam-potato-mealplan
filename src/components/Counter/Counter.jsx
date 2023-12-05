@@ -1,26 +1,25 @@
-import { useState } from "react";
 import Button from "../Button/Button";
+import "./Counter.css";
+export default function Counter({ value, onChange }) {
 
-export default function Counter () {
-  const [count, setCount] = useState(2);
+    const handleDecrement = () => {
+      if (value > 1) {
+        onChange(value - 1);
+      }
+    };
 
-  const handleIncrement = () => {
-    if (count < 4) {
-      setCount(count + 1);
-    }
-  };
+    const handleIncrement = () => {
+      if (value < 4) {
+        onChange(value + 1);
+      }
+    };
 
-  const handleDecrement = () => {
-    if (count > 1) {
-      setCount(count - 1);
-    }
-  };
+    return (
+      <section className="servingSize">
+        <Button className="button-rounded" text="-" onClick={handleDecrement} />
+        <span>{value} servings</span>
+        <Button className="button-rounded" text="+" onClick={handleIncrement} />
+      </section>
+    );
 
-  return (
-    <>
-      <Button text="-" onClick={handleDecrement}/>
-      <span>{count}</span>
-      <Button text="+" onClick={handleIncrement}/>
-    </>
-  );
 }

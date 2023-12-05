@@ -6,6 +6,7 @@ import RecipeCard from "../../components/RecipeCard/Recipecard";
 import { useEffect, useState } from "react";
 import { onSnapshot, query } from "firebase/firestore";
 import { recipesRef } from "../../firebase-config";
+
 export default function Recipes() {
   const [recipes, setRecipes] = useState([]);
 
@@ -26,7 +27,7 @@ export default function Recipes() {
     <>
       <TopBar />
       <section className="page">
-        <h1>Profile</h1>
+        <h1>Recipes</h1>
         <p>Cool</p>
 
         {recipes.map((recipe) => (
