@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./CategoryTag.css";
 
 export default function CategoryTag({ tag }) {
   const [isSelected, setIsSelected] = useState(false);
@@ -9,7 +10,7 @@ export default function CategoryTag({ tag }) {
 
   return (
     <span
-      className={`postALabel ${isSelected ? "postALabelSelected" : ""}`}
+      className={`categoryTag ${isSelected ? "categoryTagSelected" : ""}`}
       onClick={selectTag}
     >
       {tag}

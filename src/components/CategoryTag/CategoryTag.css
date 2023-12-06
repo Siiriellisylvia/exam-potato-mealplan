@@ -1,0 +1,15 @@
+.categoryTag {
+  background-color: var(--off-white-75);
+  border-radius: 20px;
+  color: var(--dark-text);
+  padding: 6px 16px;
+  font-family: var(--body-font);
+  font-weight: var(--font-weight-bold);
+  margin: 2px 6px;
+}
+
+.categoryTagSelected {
+  background-color: var(--dark-teal);
+  color:var(--off-white);
+}
+

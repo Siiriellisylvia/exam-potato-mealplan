@@ -6,7 +6,7 @@
 }
 
 .addRecipe input {
-    margin: 1em auto;
+    margin: 0;
     width: 100%;
     padding: 1em;
     box-sizing: border-box;
@@ -40,6 +40,28 @@
 .ingredient-fields {
     display: flex;
     flex-direction: row;
-    margin: 1em auto;
+    margin: 0;
+    padding:0;
     gap:4px;
+}
+
+.addRecipe {
+    display: flex;
+    flex-direction:column;
+    gap: 1em;
+}
+
+.chooseTagRow {
+  font-family: var(--body-font);
+  font-weight: var(--font-weight-bold);
+  height: 48px; /* Set the desired height */
+  overflow-y: auto;
+  white-space: nowrap;
+  align-items: center;
+  display: flex;
+}
+
+ul {
+list-style-type:none;
+padding:0;
 }
