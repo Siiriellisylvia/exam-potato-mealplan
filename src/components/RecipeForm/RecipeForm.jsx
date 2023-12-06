@@ -218,7 +218,7 @@ export default function RecipeForm({ saveRecipe, recipe }) {
           />
         </div>
         <button
-          className="button-primary"
+          className="button-primary button-add"
           type="button"
           onClick={handleAddIngredient}
         >
@@ -251,10 +251,9 @@ export default function RecipeForm({ saveRecipe, recipe }) {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-
         </div>
         <button
-          className="button-primary"
+          className="button-primary button-add"
           type="button"
           onClick={handleAddStep}
         >
@@ -277,7 +276,7 @@ export default function RecipeForm({ saveRecipe, recipe }) {
           <CategoryTag tag="Vegan" />
           <CategoryTag tag="Vegetarian" />
           <CategoryTag tag="Chicken" />
-          <CategoryTag tag="Beef" /> 
+          <CategoryTag tag="Beef" />
           <CategoryTag tag="Pork" />
           <CategoryTag tag="Chicken" />
         </li>

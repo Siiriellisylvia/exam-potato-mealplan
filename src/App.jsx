@@ -12,7 +12,6 @@ import Profile from "./pages/Profile/Profile";
 import SignIn from "./pages/SignIn/SignIn";
 import Recipes from "./pages/Recipes/Recipes";
 import AddRecipe from "./pages/AddRecipe/AddRecipe";
-import Playground from "./pages/Playground/Playground";
 import AddIngredient from "./pages/Playground/AddIngredients";
 
 function App() {
