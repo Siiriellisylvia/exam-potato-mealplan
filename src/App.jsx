@@ -12,7 +12,7 @@ import Profile from "./pages/Profile/Profile";
 import SignIn from "./pages/SignIn/SignIn";
 import Recipes from "./pages/Recipes/Recipes";
 import AddRecipe from "./pages/AddRecipe/AddRecipe";
-import AddIngredient from "./pages/Playground/AddIngredients";
+// import Todo from "./pages/Playground/Todo";
 
 function App() {
     const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
@@ -50,7 +50,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/recipes" element={<Recipes />} />
         <Route path="/addrecipe" element={<AddRecipe />} />
-        <Route path="/playground" element={<AddIngredient/>} />
+        {/* <Route path="/playground" element={<Todo/>} /> */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>

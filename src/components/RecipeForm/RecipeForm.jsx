@@ -60,42 +60,75 @@ export default function RecipeForm({ saveRecipe, recipe }) {
 
   const handleAddIngredient = () => {
     const newIngredient = {
+      id: new Date().getTime(),
       amount: amount,
       unit: unit,
       ingredient: ingredient,
     };
 
-    setSavedIngredients([...savedIngredients, newIngredient]);
+    console.log("id", newIngredient.id);
+    console.log("Adding Ingredient:", newIngredient);
+
+  setSavedIngredients((prevIngredients) => {
+    const updatedIngredients = Array.isArray(prevIngredients)
+      ? [...prevIngredients, newIngredient]
+      : [newIngredient];
+
+    console.log("UpdatedIngredients array:", updatedIngredients);
+
+    return updatedIngredients;
+    
+  });
 
     setAmount("");
     setUnit("");
     setIngredient("");
   };
 
-    const handleDeleteIngredient = (index) => {
-      const updatedIngredients = [...savedIngredients];
-      updatedIngredients.splice(index, 1);
-      setSavedIngredients(updatedIngredients);
+const handleDeleteIngredient = (id) => {
+  setSavedIngredients((prevIngredients) => {
+    console.log("Deleting Ingredient with ID:", id);
+    console.log("PrevIngredients Before Deletion:", prevIngredients);
+    console.log("SavedIngredients Before Deletion:", savedIngredients);
+
+    const updatedIngredients = prevIngredients.filter(
+      (newIngredient) => newIngredient.id !== id
+    );
+
+    console.log("UpdatedIngredients After Deletion:", updatedIngredients);
+
+    return updatedIngredients;
+  });
+};
+
+
+  const handleAddStep = () => {
+    const newStep = {
+      description: description,
     };
 
-      const handleAddStep = () => {
-        const newStep = {
-          description:description
-        };
+    setSavedSteps([...savedSteps, newStep]);
 
-        setSavedSteps([...savedSteps, newStep]);
+    setDescription("");
+  };
 
-        setDescription("");
-      };
-
-        const handleDeleteStep = (index) => {
-          const updatedSteps = [...savedSteps];
-          updatedSteps.splice(index, 1);
-          setSavedSteps(updatedSteps);
-        };
+  const handleDeleteStep = (index) => {
+    const updatedSteps = [...savedSteps];
+    updatedSteps.splice(index, 1);
+    setSavedSteps(updatedSteps);
+  };
 
   async function handleSubmit(event) {
     event.preventDefault();
+    console.log("Form Submitted with Data:", {
+      title,
+      image,
+      servingSize,
+      ingredients: savedIngredients,
+      steps: savedSteps,
+      tags: getChosenTags(),
+    });
+
     const formData = {
       // create a new objebt to hold the value from states / input fields
       title: title,
@@ -110,6 +143,7 @@ export default function RecipeForm({ saveRecipe, recipe }) {
       formData.image = await handleUploadImage(); // call handleUploadImage to upload the image to firebase storage and get the download URL
     }
 
+
     const validForm =
       formData.title &&
       formData.image &&
@@ -117,7 +151,7 @@ export default function RecipeForm({ saveRecipe, recipe }) {
       formData.ingredients &&
       formData.steps; // will return false if one of the properties doesn't have a value
     if (validForm) {
-      // if all fields/ properties are filled, then call savePost
+      // if all fields/ properties are filled, then call saveRecipe
       saveRecipe(formData);
     } else {
       // if not, set errorMessage state.
@@ -134,21 +168,20 @@ export default function RecipeForm({ saveRecipe, recipe }) {
 
   <i className="material-symbols-rounded">drag_indicator</i>;
 
+  function getChosenTags() {
+    const chosenTags = [];
+    // Find all label elements with the "tagLabel" class and the "selected" class.
+    const selectedTagElements = document.querySelectorAll(
+      ".categoryTag.categoryTagSelected"
+    );
 
-    function getChosenTags() {
-      const chosenTags = [];
-      // Find all label elements with the "tagLabel" class and the "selected" class.
-      const selectedTagElements = document.querySelectorAll(
-        ".categoryTag.categoryTagSelected"
-      );
+    // Extract the values of the selected labels and add them to the chosenTags array.
+    selectedTagElements.forEach((tagElement) => {
+      chosenTags.push(tagElement.textContent);
+    });
 
-      // Extract the values of the selected labels and add them to the chosenTags array.
-      selectedTagElements.forEach((tagElement) => {
-        chosenTags.push(tagElement.textContent);
-      });
-
-      return chosenTags;
-    }
+    return chosenTags;
+  }
 
   return (
     <form onSubmit={handleSubmit} className="addRecipe">
@@ -183,14 +216,16 @@ export default function RecipeForm({ saveRecipe, recipe }) {
       <label>
         Ingredients
         <ul style={{ display: savedIngredients.length > 0 ? "block" : "none" }}>
-          {savedIngredients.map((savedIngredient, index) => (
-            <li key={index}>
-              {savedIngredient.amount} {savedIngredient.unit}{" "}
-              {savedIngredient.ingredient}
+          {savedIngredients.map((newIngredient) => (
+            <li key={newIngredient.id} className="ingredient-list">
+              {newIngredient.amount} {newIngredient.unit}
+              {newIngredient.ingredient}
               <button
                 className="button-primary material-symbols-rounded"
                 type="button"
-                onClick={() => handleDeleteIngredient(index)}
+                onClick={() => {
+                  handleDeleteIngredient(newIngredient.id);
+                }}
               >
                 Delete
               </button>

@@ -4,6 +4,7 @@ import { addDoc} from "firebase/firestore";
 import { recipesRef } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
+// import Todo from "../Playground/Todo";
 import RecipeForm from "../../components/RecipeForm/RecipeForm";
 export default function AddRecipe() {
 
@@ -12,7 +13,7 @@ export default function AddRecipe() {
 
     async function createRecipe(newRecipe) {
         newRecipe.uid = auth.currentUser.uid; // uid of auth user / signed in user
-        await addDoc(recipesRef, newRecipe); // add new doc - new post object
+        await addDoc(recipesRef, newRecipe); // add new doc - new recipe object
 
         navigate("/recipes");
     }
@@ -22,7 +23,8 @@ export default function AddRecipe() {
         <TopBar />
         <section className="page addrecipe">
             <h1>Add Recipe</h1>
-            <RecipeForm saveRecipe={createRecipe}  />
+            <RecipeForm saveRecipe={createRecipe} />
+            {/* <Todo saveRecipe={createRecipe}/> */}
         </section>
         <NavBar />
         </>
