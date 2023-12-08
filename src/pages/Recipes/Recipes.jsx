@@ -7,6 +7,7 @@ import { onSnapshot, query } from "firebase/firestore";
 import { recipesRef } from "../../firebase-config";
 import RecipeCard from "../../components/RecipeCard/RecipeCard";
 import { useNavigate } from "react-router-dom";
+import SearchAndFilter from "../../components/SearchFilter/SearchFilter";
 
 export default function Recipes( recipe) {
       const navigate = useNavigate();
@@ -34,7 +35,8 @@ export default function Recipes( recipe) {
     <>
       <TopBar />
       <section className="page">
-        <h1>Recipes</h1>
+        <h1 className="header">Recipes</h1>
+        <SearchAndFilter />
         <section className="recipesFeed">
         {recipes.map((recipe) => (
           <RecipeCard recipe={recipe} key={recipe.id} onClick={handleClick}/>

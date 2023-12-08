@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "./RecipeCard.css";
 import Button from "../Button/Button";
 
-export default function RecipeCard({ recipe }) {
+export default function HomeRecipeCard({ recipe }) {
   const navigate = useNavigate();
 
   function openRecipe() {
@@ -10,11 +10,11 @@ export default function RecipeCard({ recipe }) {
   }
 
   return (
-    <section className="recipeCardContainer">
-      <article className="recipeCard" onClick={openRecipe}>
+    <section className="homeRecipeCardContainer">
+      <article className="homeRecipeCard" onClick={openRecipe}>
         <div className="cardImageContainer">
           <img src={recipe.image} alt={recipe.title} />
-          <div className="overlay">
+          <div className="homeOverlay">
             <Button
               className="button-rounded material-symbols-rounded"
               text="Add"

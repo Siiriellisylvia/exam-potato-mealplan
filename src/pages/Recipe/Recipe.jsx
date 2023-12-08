@@ -2,48 +2,64 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getDoc, doc } from "firebase/firestore";
 import { recipesRef } from "../../firebase-config";
+import TopBar from "../../components/TopBar/TopBar";
+import "./Recipe.css";
 
 export default function Recipe() {
-  const { recipeId } = useParams(); // Extract recipeId from URL parameters
+  const { recipeId } = useParams();
   const [recipe, setRecipe] = useState({
     title: "",
     image: "",
-    ingredients: [{ ingredient:"", amount: "", unit: "" }]
+    ingredients: [{ ingredient: "", amount: "", unit: "" }],
+    servingSize: "",
+    steps: [{ description: "" }],
+    tags: [""],
   });
 
+  useEffect(() => {
+    const fetchRecipe = async () => {
+      try {
+        const recipeDocRef = doc(recipesRef, recipeId);
+        const docSnapshot = await getDoc(recipeDocRef);
 
-useEffect(() => {
-  const fetchRecipe = async () => {
-    try {
-      // Fetch the recipe document data from Firestore
-      const recipeDocRef = doc(recipesRef, recipeId);
-      const docSnapshot = await getDoc(recipeDocRef);
+        if (docSnapshot.exists()) {
+          const recipeData = docSnapshot.data();
 
-      if (docSnapshot.exists()) {
-        // Extract the data from the document
-        const recipeData = docSnapshot.data();
+          console.log("Fetched Ingredients:", recipeData.ingredients);
+          console.log("Fetched Steps:", recipeData.steps);
+          console.log("Fetched Tags:", recipeData.tags);
 
-        // Update the state with the fetched data
-        setRecipe({
-          title: recipeData.title,
-          image: recipeData.image,
-          ingredients: recipeData.ingredients || [], // Ensure it's an array
-        });
-      } else {
-        console.log("Recipe not found");
+          setRecipe({
+            title: recipeData.title,
+            image: recipeData.image,
+            ingredients: recipeData.ingredients || [],
+            steps: recipeData.steps,
+            tags: recipeData.tags,
+          });
+        } else {
+          console.log("Recipe not found");
+        }
+      } catch (error) {
+        console.error("Error fetching recipe:", error);
       }
-    } catch (error) {
-      console.error("Error fetching recipe:", error);
-    }
-  };
+    };
 
-  fetchRecipe();
-}, [recipeId]);
+    fetchRecipe();
+  }, [recipeId]);
+
+  console.log("Recipe State:", recipe);
+
   return (
-    <div>
+    <div className="page recipePage">
+      <TopBar />
       <h1>{recipe.title}</h1>
       <img src={recipe.image} alt={recipe.title} />
- <h2>Ingredients:</h2>
+
+      {recipe.tags.map((tag, index) => (
+        <li key={index}>{tag}</li>
+      ))}
+
+      <h2>Ingredients:</h2>
       <ul>
         {recipe.ingredients.map((ingredient, index) => (
           <li key={index}>
@@ -51,7 +67,12 @@ useEffect(() => {
           </li>
         ))}
       </ul>
-
+      <h2>Instructions:</h2>
+      <ul>
+        {recipe.steps.map((step, index) => (
+          <li key={index}>{step.description}</li>
+        ))}
+      </ul>
     </div>
   );
 }

@@ -25,7 +25,7 @@ label {
 .addRecipe .image-preview {
     width: calc(100% - 4px);
     max-width: fill;
-    height: 200px;
+    height: 250px;
     object-fit: cover;
     margin-top: 8px;
     display: block;
@@ -46,6 +46,15 @@ label {
     font-size: var(--subheading-size-small);
 }
 
+.ingredient-list >section {
+    display: flex;
+    gap:3rem;
+    align-items:center;
+}
+
+.amountAndUnit {
+    width:3rem;
+}
 
 .ingredient-fields {
     display: flex;
@@ -54,6 +63,7 @@ label {
     padding:0;
     gap:4px;
 }
+
 
 .addRecipe {
     display: flex;

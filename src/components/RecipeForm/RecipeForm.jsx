@@ -43,7 +43,7 @@ export default function RecipeForm({ saveRecipe, recipe }) {
    */
   function handleImageChange(event) {
     const file = event.target.files[0];
-    if (file.size < 1000000) {
+    if (file.size <= 2000000) {
       // image file size must be below 1MB
       setImageFile(file); // set the imageFile state with the file object
       const reader = new FileReader();
@@ -217,8 +217,14 @@ const handleDeleteIngredient = (id) => {
         <ul style={{ display: savedIngredients.length > 0 ? "block" : "none" }}>
           {savedIngredients.map((newIngredient) => (
             <li key={newIngredient.id} className="ingredient-list">
-              {newIngredient.amount} {newIngredient.unit}
-              {newIngredient.ingredient}
+              <section>
+                <section className="amountAndUnit">
+                {newIngredient.amount}
+                <span style={{ marginLeft: '5px' }}></span>
+                {newIngredient.unit}
+                </section>
+                {newIngredient.ingredient}
+              </section>
               <button
                 className="button-primary material-symbols-rounded"
                 type="button"

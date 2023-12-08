@@ -25,3 +25,52 @@ export const recipesRef = collection(db, "recipes");
 
 // Initialize Cloud Storage and get a reference to the service
 export const storage = getStorage(firebaseApp);
+
+
+// const recipesData = [
+// //   {
+//     image: "https://example.com/noodles.jpg",
+//     ingredients: [
+//       {
+//         amount: "300",
+//         ingredient: "Egg Noodles",
+//         unit: "g",
+//       },
+//       {
+//         amount: "1",
+//         ingredient: "Bell Pepper",
+//         unit: "piece",
+//       },
+//       {
+//         amount: "2",
+//         ingredient: "Spring Onions",
+//         unit: "pieces",
+//       },
+//     ],
+//     servingSize: 3,
+//     steps: [
+//       {
+//         description: "Boil the egg noodles according to package instructions.",
+//       },
+//       {
+//         description: "Slice the bell pepper and spring onions.",
+//       },
+//       {
+//         description: "Stir-fry everything together until heated through.",
+//       },
+//     ],
+//     tags: ["Quick", "Noodles"],
+//     title: "Stir-Fried Noodles",
+//     uid: "T9eNWHmSWuXULQ7gbJj3Itavsrp1",
+//   },
+// ];
+
+// // Add recipes to Firestore
+// recipesData.forEach(async (recipe) => {
+//   try {
+//     const docRef = await addDoc(collection(db, "recipes"), recipe);
+//     console.log("Recipe added with ID: ", docRef.id);
+//   } catch (e) {
+//     console.error("Error adding recipe: ", e);
+//   }
+// })
