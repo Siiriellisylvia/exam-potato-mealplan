@@ -6,8 +6,11 @@ import { useEffect, useState } from "react";
 import { onSnapshot, query } from "firebase/firestore";
 import { recipesRef } from "../../firebase-config";
 import RecipeCard from "../../components/RecipeCard/RecipeCard";
+import { useNavigate } from "react-router-dom";
 
-export default function Recipes() {
+export default function Recipes( recipe) {
+      const navigate = useNavigate();
+
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
@@ -22,6 +25,10 @@ export default function Recipes() {
     return () => unsubscribe(); // tell the post component to unsubscribe from listen on changes from firestore
   }, []);
 
+      function handleClick() {
+        navigate(`/recipes/${recipe.id}`);
+      }
+
 
   return (
     <>
@@ -30,7 +37,7 @@ export default function Recipes() {
         <h1>Recipes</h1>
         <section className="recipesFeed">
         {recipes.map((recipe) => (
-          <RecipeCard recipe={recipe} key={recipe.id} />
+          <RecipeCard recipe={recipe} key={recipe.id} onClick={handleClick}/>
         ))}
         </section>
         <div className="buttonContainer">

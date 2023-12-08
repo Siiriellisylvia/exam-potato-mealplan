@@ -11,7 +11,9 @@ import NavBar from "./components/NavBar/NavBar";
 import Profile from "./pages/Profile/Profile";
 import SignIn from "./pages/SignIn/SignIn";
 import Recipes from "./pages/Recipes/Recipes";
+import Recipe from "./pages/Recipe/Recipe";
 import AddRecipe from "./pages/AddRecipe/AddRecipe";
+import AddIngredients from "./pages/Playground/AddIngredients";
 // import Todo from "./pages/Playground/Todo";
 
 function App() {
@@ -42,15 +44,17 @@ function App() {
       // private routes including nav bar
   const privateRoutes = (
     <>
-      <NavBar location={location} /> {/* Pass location to Nav component */}
+      <NavBar location={location} />
+      {/* Pass location to Nav component */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/mealplan" element={<Mealplan />} />
         <Route path="/groceries" element={<Groceries />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/recipes" element={<Recipes />} />
+        <Route path="recipes/:recipeId" element={<Recipe />} />
         <Route path="/addrecipe" element={<AddRecipe />} />
-        {/* <Route path="/playground" element={<Todo/>} /> */}
+        <Route path="/playground" element={<AddIngredients />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>

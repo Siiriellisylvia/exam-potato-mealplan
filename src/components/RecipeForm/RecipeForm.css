@@ -70,6 +70,13 @@ label {
   white-space: nowrap;
   align-items: center;
   display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+
+}
+
+.chooseTagRow::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
 }
 
 ul {

@@ -16,7 +16,7 @@ export default function RecipeForm({ saveRecipe, recipe }) {
   const [ingredient, setIngredient] = useState("");
   const [savedIngredients, setSavedIngredients] = useState([]); // New state for saved ingredients
   const [savedSteps, setSavedSteps] = useState([]); // New state for saved steps
-  const [description, setDescription] = useState(""); // New state for description
+  // const [description, setDescription] = useState(""); // New state for description
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
@@ -58,16 +58,16 @@ export default function RecipeForm({ saveRecipe, recipe }) {
     }
   }
 
-  const handleAddIngredient = () => {
-    const newIngredient = {
-      id: new Date().getTime(),
-      amount: amount,
-      unit: unit,
-      ingredient: ingredient,
-    };
+const handleAddIngredient = () => {
+  const newIngredient = {
+    id: new Date().getTime(),
+    amount: amount,
+    unit: unit,
+    ingredient: ingredient,
+  };
 
-    console.log("id", newIngredient.id);
-    console.log("Adding Ingredient:", newIngredient);
+  console.log("id", newIngredient.id);
+  console.log("Adding Ingredient:", newIngredient);
 
   setSavedIngredients((prevIngredients) => {
     const updatedIngredients = Array.isArray(prevIngredients)
@@ -77,46 +77,45 @@ export default function RecipeForm({ saveRecipe, recipe }) {
     console.log("UpdatedIngredients array:", updatedIngredients);
 
     return updatedIngredients;
-    
   });
 
-    setAmount("");
-    setUnit("");
-    setIngredient("");
-  };
+  setAmount("");
+  setUnit("");
+  setIngredient("");
+};
 
 const handleDeleteIngredient = (id) => {
-  setSavedIngredients((prevIngredients) => {
+  setSavedIngredients((savedIngredients) => {
     console.log("Deleting Ingredient with ID:", id);
-    console.log("PrevIngredients Before Deletion:", prevIngredients);
     console.log("SavedIngredients Before Deletion:", savedIngredients);
 
-    const updatedIngredients = prevIngredients.filter(
+    const updatedIngredients = savedIngredients.filter(
       (newIngredient) => newIngredient.id !== id
     );
 
     console.log("UpdatedIngredients After Deletion:", updatedIngredients);
+    console.log("SavedIngredients After Deletion:", savedIngredients);
 
     return updatedIngredients;
   });
 };
 
 
-  const handleAddStep = () => {
-    const newStep = {
-      description: description,
-    };
+  // const handleAddStep = () => {
+  //   const newStep = {
+  //     description: description,
+  //   };
 
-    setSavedSteps([...savedSteps, newStep]);
+  //   setSavedSteps([...savedSteps, newStep]);
 
-    setDescription("");
-  };
+  //   setDescription("");
+  // };
 
-  const handleDeleteStep = (index) => {
-    const updatedSteps = [...savedSteps];
-    updatedSteps.splice(index, 1);
-    setSavedSteps(updatedSteps);
-  };
+  // const handleDeleteStep = (index) => {
+  //   const updatedSteps = [...savedSteps];
+  //   updatedSteps.splice(index, 1);
+  //   setSavedSteps(updatedSteps);
+  // };
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -262,7 +261,7 @@ const handleDeleteIngredient = (id) => {
         </button>
       </label>
 
-      <label>
+      {/* <label>
         Instructions
         <ul style={{ display: savedSteps.length > 0 ? "block" : "none" }}>
           {savedSteps.map((savedStep, index) => (
@@ -295,7 +294,7 @@ const handleDeleteIngredient = (id) => {
           <i className="material-symbols-rounded">add</i>
           Add new step
         </button>
-      </label>
+      </label> */}
 
       {/*--------------Tags Choice ---------------*/}
       <>

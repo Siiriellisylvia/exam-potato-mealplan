@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase-config";
 
-const RecipeForm = () => {
+export default function AddIngredients () {
   const [ingredients, setIngredients] = useState([]);
   const [selectedIngredient, setSelectedIngredient] = useState("");
   const [selectedUnit, setSelectedUnit] = useState("");
@@ -84,6 +84,4 @@ const RecipeForm = () => {
       {/* Other form fields and buttons */}
     </form>
   );
-};
-
-export default RecipeForm;
+}
