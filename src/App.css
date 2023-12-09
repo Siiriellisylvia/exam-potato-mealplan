@@ -108,10 +108,8 @@ a {
 .button-rounded{
   border-radius: 36px;
   padding:0.5rem;
-}
-
-.button-add {
-  color:var(--dark-orange)
+  background-color: var(--dark-teal);
+  color:var(--off-white);
 }
 
 .header {

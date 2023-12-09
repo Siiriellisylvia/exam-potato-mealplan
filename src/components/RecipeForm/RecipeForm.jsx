@@ -16,7 +16,8 @@ export default function RecipeForm({ saveRecipe, recipe }) {
   const [ingredient, setIngredient] = useState("");
   const [savedIngredients, setSavedIngredients] = useState([]); // New state for saved ingredients
   const [savedSteps, setSavedSteps] = useState([]); // New state for saved steps
-  // const [description, setDescription] = useState(""); // New state for description
+  const [currentStep, setCurrentStep] = useState(1); // New state for current step
+  const [description, setDescription] = useState(""); // New state for description
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
@@ -58,64 +59,63 @@ export default function RecipeForm({ saveRecipe, recipe }) {
     }
   }
 
-const handleAddIngredient = () => {
-  const newIngredient = {
-    id: new Date().getTime(),
-    amount: amount,
-    unit: unit,
-    ingredient: ingredient,
+  const handleAddIngredient = () => {
+    const newIngredient = {
+      id: new Date().getTime(),
+      amount: amount,
+      unit: unit,
+      ingredient: ingredient,
+    };
+
+    console.log("id", newIngredient.id);
+    console.log("Adding Ingredient:", newIngredient);
+
+    setSavedIngredients((prevIngredients) => {
+      const updatedIngredients = Array.isArray(prevIngredients)
+        ? [...prevIngredients, newIngredient]
+        : [newIngredient];
+
+      console.log("UpdatedIngredients array:", updatedIngredients);
+
+      return updatedIngredients;
+    });
+
+    setAmount("");
+    setUnit("");
+    setIngredient("");
   };
 
-  console.log("id", newIngredient.id);
-  console.log("Adding Ingredient:", newIngredient);
+  const handleDeleteIngredient = (id) => {
+    setSavedIngredients((savedIngredients) => {
+      console.log("Deleting Ingredient with ID:", id);
+      console.log("SavedIngredients Before Deletion:", savedIngredients);
 
-  setSavedIngredients((prevIngredients) => {
-    const updatedIngredients = Array.isArray(prevIngredients)
-      ? [...prevIngredients, newIngredient]
-      : [newIngredient];
+      const updatedIngredients = savedIngredients.filter(
+        (newIngredient) => newIngredient.id !== id
+      );
 
-    console.log("UpdatedIngredients array:", updatedIngredients);
+      console.log("UpdatedIngredients After Deletion:", updatedIngredients);
+      console.log("SavedIngredients After Deletion:", savedIngredients);
 
-    return updatedIngredients;
-  });
+      return updatedIngredients;
+    });
+  };
 
-  setAmount("");
-  setUnit("");
-  setIngredient("");
-};
+  const handleAddStep = () => {
+    const newStep = {
+      description: description,
+    };
 
-const handleDeleteIngredient = (id) => {
-  setSavedIngredients((savedIngredients) => {
-    console.log("Deleting Ingredient with ID:", id);
-    console.log("SavedIngredients Before Deletion:", savedIngredients);
+    setSavedSteps([...savedSteps, newStep]);
+    setCurrentStep((prevStep) => prevStep + 1); // Increment the step number
+    setDescription("");
+  };
 
-    const updatedIngredients = savedIngredients.filter(
-      (newIngredient) => newIngredient.id !== id
-    );
-
-    console.log("UpdatedIngredients After Deletion:", updatedIngredients);
-    console.log("SavedIngredients After Deletion:", savedIngredients);
-
-    return updatedIngredients;
-  });
-};
-
-
-  // const handleAddStep = () => {
-  //   const newStep = {
-  //     description: description,
-  //   };
-
-  //   setSavedSteps([...savedSteps, newStep]);
-
-  //   setDescription("");
-  // };
-
-  // const handleDeleteStep = (index) => {
-  //   const updatedSteps = [...savedSteps];
-  //   updatedSteps.splice(index, 1);
-  //   setSavedSteps(updatedSteps);
-  // };
+  const handleDeleteStep = (index) => {
+    const updatedSteps = [...savedSteps];
+    updatedSteps.splice(index, 1);
+    setSavedSteps(updatedSteps);
+  };
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -142,7 +142,6 @@ const handleDeleteIngredient = (id) => {
       formData.image = await handleUploadImage(); // call handleUploadImage to upload the image to firebase storage and get the download URL
     }
 
-
     const validForm =
       formData.title &&
       formData.image &&
@@ -164,8 +163,6 @@ const handleDeleteIngredient = (id) => {
     const downloadURL = await getDownloadURL(storageRef); // Get the download URL
     return downloadURL;
   }
-
-  <i className="material-symbols-rounded">drag_indicator</i>;
 
   function getChosenTags() {
     const chosenTags = [];
@@ -212,6 +209,7 @@ const handleDeleteIngredient = (id) => {
         Serving size
         <Counter value={servingSize} onChange={setServingSize} />
       </label>
+
       <label>
         Ingredients
         <ul style={{ display: savedIngredients.length > 0 ? "block" : "none" }}>
@@ -219,13 +217,13 @@ const handleDeleteIngredient = (id) => {
             <li key={newIngredient.id} className="ingredient-list">
               <section>
                 <section className="amountAndUnit">
-                {newIngredient.amount}
-                <span style={{ marginLeft: '5px' }}></span>
-                {newIngredient.unit}
+                  {newIngredient.amount}
+                  <span style={{ marginLeft: "5px" }}></span>
+                  {newIngredient.unit}
                 </section>
                 {newIngredient.ingredient}
               </section>
-              <button
+              <div
                 className="button-primary material-symbols-rounded"
                 type="button"
                 onClick={() => {
@@ -233,7 +231,7 @@ const handleDeleteIngredient = (id) => {
                 }}
               >
                 Delete
-              </button>
+              </div>
             </li>
           ))}
         </ul>
@@ -267,27 +265,30 @@ const handleDeleteIngredient = (id) => {
         </button>
       </label>
 
-      {/* <label>
+      <label>
         Instructions
         <ul style={{ display: savedSteps.length > 0 ? "block" : "none" }}>
           {savedSteps.map((savedStep, index) => (
-            <li key={index}>
-              <div className="button-rounded">1</div>
-              {savedStep.description}
-              <button
+            <li key={index} className="steps-list">
+              <section>
+                <div className="button-rounded">{index + 1}</div>
+                {savedStep.description}
+              </section>
+
+              <div
                 className="button-primary material-symbols-rounded"
                 type="button"
                 onClick={() => handleDeleteStep(index)}
               >
                 Delete
-              </button>
+              </div>
             </li>
           ))}
         </ul>
         <div className="step-fields">
           <input
             type="text"
-            placeholder="Description"
+            placeholder="Write a step description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
@@ -300,7 +301,7 @@ const handleDeleteIngredient = (id) => {
           <i className="material-symbols-rounded">add</i>
           Add new step
         </button>
-      </label> */}
+      </label>
 
       {/*--------------Tags Choice ---------------*/}
       <>

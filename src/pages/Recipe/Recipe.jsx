@@ -4,6 +4,7 @@ import { getDoc, doc } from "firebase/firestore";
 import { recipesRef } from "../../firebase-config";
 import TopBar from "../../components/TopBar/TopBar";
 import "./Recipe.css";
+import RecipeTag from "../../components/CategoryTag/RecipeTag";
 
 export default function Recipe() {
   const { recipeId } = useParams();
@@ -52,11 +53,11 @@ export default function Recipe() {
   return (
     <div className="page recipePage">
       <TopBar />
-      <h1>{recipe.title}</h1>
+      <h1 className="header">{recipe.title}</h1>
       <img src={recipe.image} alt={recipe.title} />
 
-      {recipe.tags.map((tag, index) => (
-        <li key={index}>{tag}</li>
+      {recipe.tags.map((tag) => (
+        <RecipeTag tag={tag} key={tag} />
       ))}
 
       <h2>Ingredients:</h2>
@@ -67,6 +68,7 @@ export default function Recipe() {
           </li>
         ))}
       </ul>
+
       <h2>Instructions:</h2>
       <ul>
         {recipe.steps.map((step, index) => (

@@ -45,7 +45,7 @@ export default function SearchFilter() {
     <>
       <section className="searchFilterBar">
         <SearchBar
-          placeholder="Search challenges"
+          placeholder="Search recipes"
           searchValue={searchValue}
           setSearchValue={setSearchValue}
         />

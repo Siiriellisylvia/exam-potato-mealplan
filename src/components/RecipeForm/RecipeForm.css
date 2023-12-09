@@ -1,76 +1,89 @@
 form {
-    margin: auto;
-    text-align: left;
-    background-color: var(--white);
-    animation: fadeIn 0.5s;
+  margin: auto;
+  text-align: left;
+  background-color: var(--white);
+  animation: fadeIn 0.5s;
 }
 
 input {
-    margin-top: 4px;
-    width: 100%;
-    padding: 1em;
-    box-sizing: border-box;
-    display: block;
-    background: var(--off-white);
-    border: none;
-    border-radius: 8px;
+  margin-top: 4px;
+  width: 100%;
+  padding: 1em;
+  box-sizing: border-box;
+  display: block;
+  background: var(--off-white-50);
+  border: none;
+  border-radius: 8px;
 }
 
 label {
-    font-size: var(--subheading-size);
-    color:var(--dark-text);
-    font-weight: var(--font-weight-bold);
+  font-size: var(--subheading-size);
+  color: var(--dark-text);
+  font-weight: var(--font-weight-bold);
 }
 
 .addRecipe .image-preview {
-    width: calc(100% - 4px);
-    max-width: fill;
-    height: 250px;
-    object-fit: cover;
-    margin-top: 8px;
-    display: block;
-    cursor: pointer;
-    border: solid 2px var(--green);
-    border-radius:8px;
+  width: calc(100% - 4px);
+  max-width: fill;
+  height: 250px;
+  object-fit: cover;
+  margin-top: 8px;
+  display: block;
+  cursor: pointer;
+  border: solid 2px var(--green);
+  border-radius: 8px;
 }
 
 .addRecipe .file-input {
-    display: none;
+  display: none;
 }
 
 .ingredient-list {
-    display:flex;
-    align-items:center;
-    justify-content: space-between;
-    padding-bottom:0.5rem;
-    font-size: var(--subheading-size-small);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
+  font-size: var(--subheading-size-small);
 }
 
-.ingredient-list >section {
-    display: flex;
-    gap:3rem;
-    align-items:center;
+.ingredient-list > section {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
 }
 
 .amountAndUnit {
-    width:3rem;
+  width: 3rem;
 }
 
 .ingredient-fields {
-    display: flex;
-    flex-direction: row;
-    margin: 0;
-    padding:0;
-    gap:4px;
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+  gap: 0.5rem;
 }
 
 
 .addRecipe {
-    display: flex;
-    flex-direction:column;
-    gap: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
+.steps-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
+  font-size: var(--subheading-size-small);
+}
+
+.steps-list > section {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+}
 
 .chooseTagRow {
   font-family: var(--body-font);
@@ -82,7 +95,6 @@ label {
   display: flex;
   overflow-x: auto;
   white-space: nowrap;
-
 }
 
 .chooseTagRow::-webkit-scrollbar {
@@ -90,25 +102,27 @@ label {
 }
 
 ul {
-list-style-type:none;
-padding:0;
+  list-style-type: none;
+  padding: 0;
+  margin:0.5rem 0rem 0rem 0rem;
 }
 
-
 .button-add {
-display: flex;
-align-items: center;
-justify-content: center;
-width:100%;
-gap:0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 0.5rem;
+  margin-top:0.5rem;
 }
 
 .material-symbols-rounded {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 30;
-  font-size:1.5rem;
+  font-size: 1.5rem;
 }
 
-.ingredient-list > .material-symbols-rounded {
+.ingredient-list > .material-symbols-rounded,
+.steps-list > .material-symbols-rounded {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 30;
-  font-size:1rem;
+  font-size: 1rem;
 }
