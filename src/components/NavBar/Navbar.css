@@ -1,11 +1,17 @@
 nav {
+  width: 100%;
   position: fixed;
   background-color: var(--light-teal);
   bottom: 0;
+}
+
+.nav-links {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 100%;
+  padding-left:1rem;
+  padding-right:1rem;
+  padding-top:0.5rem;
 }
 /* Style the links inside the navigation bar */
 nav a {
@@ -24,16 +30,14 @@ nav a {
 
 .nav-link {
   display: flex;
-  padding:0;
+  padding: 0;
   flex-direction: column;
   align-items: center;
   text-align: center;
   text-decoration: none;
   font-family: var(--body-font);
   font-weight: 400;
-  font-size: var(--body-text-small-size);
 }
-
 
 .active .material-symbols-rounded {
   font-variation-settings: "FILL" 1, "wght" 300, "GRAD" 0, "opsz" 30;
@@ -41,5 +45,5 @@ nav a {
 
 .material-symbols-rounded {
   font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 30;
-  font-size:2rem;
+  font-size: 2rem;
 }

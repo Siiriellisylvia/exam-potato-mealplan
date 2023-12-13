@@ -9,7 +9,7 @@ export default function Counter({ value, onChange }) {
     };
 
     const handleIncrement = () => {
-      if (value < 4) {
+      if (value < 6) {
         onChange(value + 1);
       }
     };

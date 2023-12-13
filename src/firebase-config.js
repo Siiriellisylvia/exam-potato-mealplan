@@ -22,6 +22,7 @@ export const db = getFirestore(firebaseApp);
 
 export const usersRef = collection(db, "users");
 export const recipesRef = collection(db, "recipes");
+export const mealplansRef = collection(db, "mealplans");
 
 // Initialize Cloud Storage and get a reference to the service
 export const storage = getStorage(firebaseApp);

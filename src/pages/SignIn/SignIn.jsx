@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
+import "../Landing/Landing.css"
+import Potato from "../../assets/potato-nb.webp"
 
 export default function SignIn() {
   const [errorMessage, setErrorMessage] = useState("");
@@ -27,21 +29,26 @@ export default function SignIn() {
       });
   }
   return (
-    <section className="page">
-      <h1>Sign In</h1>
-      <form onSubmit={signIn}>
-        <input type="email" name="mail" placeholder="Type your mail" />
-        <input
-          type="password"
-          name="password"
-          placeholder="Type your password"
-        />
-        <p className="text-error">{errorMessage}</p>
-        <button className="button-primary">Sign in</button>
-      </form>
-      <p className="text-center">
-        Don&apos;t have an account? <Link to="/signup">Sign Up</Link>
-      </p>
-    </section>
+    <section className="landing">
+      <section className="landing-container">
+        <img src={Potato}></img>
+        <h1>POTATO</h1>
+        <h2>SIMPLE MEAL PLAN</h2>
+        </section>
+        <form onSubmit={signIn} className="signin">
+          <h2>Login</h2>
+          <input type="email" name="mail" placeholder="Type your mail" />
+          <input
+            type="password"
+            name="password"
+            placeholder="Type your password"
+          />
+          <p className="text-error">{errorMessage}</p>
+          <button className="button-primary button-yellow">Log in</button>
+        </form>
+        <p className="text-center">
+          Don&apos;t have an account? <Link to="/signup">Sign Up</Link>
+        </p>
+      </section>
   );
 }

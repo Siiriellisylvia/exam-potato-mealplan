@@ -1,22 +1,31 @@
+import { useNavigate } from "react-router-dom";
 import "./MealPlanCard.css";
-import Button from "../Button/Button";
 
-export default function MealplanCard() {
+export default function MealplanCard({ recipe }) {
+  const navigate = useNavigate();
+
+   function openRecipe() {
+     navigate(`/recipes/${recipe.id}`);
+   }
   return (
-    <section className="mealplanCardContainer">
-      <article className="mealplanCard">
-        <Button
-          className="button-rounded material-symbols-rounded"
-          text="Add"
-          to="/recipes"
+      <article className="mealplan-card">
+        <img
+          src={recipe.image}
+          alt={recipe.title}
+          className="mealplan-card-image"
+          onClick={openRecipe}
         />
-        {/* <img
-            src={recipe.image}
-            alt={recipe.title}
-            className="recipeCardImage"
-          /> */}
-        <h3>Add a meal</h3>
+        <section className="mealplan-card-info">
+          <h3>{recipe.title}</h3>
+          <section className="mealplan-card-info-icons">
+            <button className="button-primary button-square material-symbols-rounded">
+              edit
+            </button>
+            <button className="button-primary button-square material-symbols-rounded">
+              list_alt_add
+            </button>
+          </section>
+        </section>
       </article>
-    </section>
   );
 }

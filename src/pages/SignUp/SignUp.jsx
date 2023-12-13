@@ -3,7 +3,8 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
 import { usersRef } from "../../firebase-config";
-import "./SignUp.css";
+import "../Landing/Landing.css";
+import Potato from "../../assets/potato-nb.webp"; 
 
 
 export default function SignUp() {
@@ -39,9 +40,14 @@ export default function SignUp() {
   }
 
   return (
-    <section className="page">
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSignUp}>
+    <section className="landing">
+      <section className="landing-container">
+        <img src={Potato}></img>
+        <h1>POTATO</h1>
+        <h2>SIMPLE MEAL PLAN</h2>
+      </section>
+      <form onSubmit={handleSignUp} className="signin">
+        <h2>Sign Up</h2>
         <input
           type="text"
           value={name}
@@ -56,10 +62,10 @@ export default function SignUp() {
           placeholder="Type your password"
         />
         <p className="text-error">{errorMessage}</p>
-        <button>Sign Up</button>
+        <button className="button-primary button-yellow">Sign Up</button>
       </form>
       <p className="text-center">
-        Already have an account? <Link to="/signin">Sign In</Link>
+        Already have an account? <Link to="/signin">Login</Link>
       </p>
     </section>
   );

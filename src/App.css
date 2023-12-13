@@ -99,10 +99,24 @@ a {
   cursor: pointer;
   font-size: var(--subheading-size-small);
   font-weight: 600;
+  box-sizing: border-box;
 }
 
 .button-yellow {
   background-color: var(--dark-orange);
+  color: var(--dark-text) !important;
+}
+
+.button-outline {
+  background-color: none;
+  border: 2px solid var(--dark-orange) !important;
+  color: var(--dark-orange) !important;
+}
+
+.button-square {
+  height:2.5rem !important;
+  width:2.5rem !important;
+  padding:0 !important;
 }
 
 .button-rounded{
@@ -115,3 +129,4 @@ a {
 .header {
   margin-bottom:1rem;
 }
+

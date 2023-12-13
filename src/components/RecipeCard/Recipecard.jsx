@@ -1,9 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import "./RecipeCard.css";
-import Button from "../Button/Button";
 
-export default function RecipeCard({ recipe }) {
+export default function RecipeCard({ recipe, onAddToMealPlan }) {
   const navigate = useNavigate();
+
+  const handleAddClick = (e) => {
+    e.stopPropagation(); // Prevents the openRecipe from being triggered
+    e.preventDefault();
+    onAddToMealPlan(recipe);
+  };
 
   function openRecipe() {
     navigate(`/recipes/${recipe.id}`);
@@ -15,10 +20,9 @@ export default function RecipeCard({ recipe }) {
         <div className="cardImageContainer">
           <img src={recipe.image} alt={recipe.title} />
           <div className="overlay">
-            <Button
-              className="button-rounded material-symbols-rounded"
-              text="Add"
-            />
+            <button
+              className="button-primary button-rounded material-symbols-rounded"
+              onClick={handleAddClick}>Add</button>
           </div>
         </div>
         <h2>{recipe.title}</h2>

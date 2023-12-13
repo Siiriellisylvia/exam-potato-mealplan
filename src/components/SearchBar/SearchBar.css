@@ -3,13 +3,13 @@
 .searchBar {
   display: flex;
   align-items: center;
-  background: var(--off-white-75);
   padding:0;
   border: none;
   border-radius: 8px;
   flex: 1;
   position: relative;
   height:1.5rem;
+  margin-bottom:1rem;
 }
 
 .searchBar > .material-symbols-rounded {
@@ -28,6 +28,7 @@
 .searchBarInput {
   border: none;
   outline: none;
+  background-color:var(--off-white-75);
   padding:1rem;
   padding-left: 3rem;
   width: 100%;

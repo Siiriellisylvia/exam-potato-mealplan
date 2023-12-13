@@ -6,6 +6,7 @@ export default function SearchBar({
   setSearchValue,
   placeholder,
 }) {
+  
   return (
     <div className="searchBar">
       <i className="material-symbols-rounded searchIcon">search</i>

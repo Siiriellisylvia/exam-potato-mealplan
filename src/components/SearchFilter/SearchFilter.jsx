@@ -12,22 +12,22 @@ export default function SearchFilter() {
     setMultiFilterVisible(!isMultiFilterVisible);
   };
 
-  useEffect(() => {
-    async function getChallenges() {
-      const url =
-        "https://playful-plates-b4a84-default-rtdb.europe-west1.firebasedatabase.app/challenges.json";
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log(data);
-      const challengesArray = Object.keys(data).map((key) => ({
-        id: key,
-        ...data[key],
-      })); // from object to array
-      setChallenges(challengesArray);
-    }
+  // useEffect(() => {
+  //   async function getChallenges() {
+  //     const url =
+  //       "https://playful-plates-b4a84-default-rtdb.europe-west1.firebasedatabase.app/challenges.json";
+  //     const response = await fetch(url);
+  //     const data = await response.json();
+  //     console.log(data);
+  //     const challengesArray = Object.keys(data).map((key) => ({
+  //       id: key,
+  //       ...data[key],
+  //     })); // from object to array
+  //     setChallenges(challengesArray);
+  //   }
 
-    getChallenges();
-  }, []);
+  //   getChallenges();
+  // }, []);
 
   let challengesToDisplay = [...challenges];
   //filter the challenges based on the searchValue input by the user
