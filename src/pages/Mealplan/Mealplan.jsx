@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { mealplansRef } from "../../firebase-config";
 import MealplanCard from "../../components/MealplanCards/MealPlanCard";
@@ -20,6 +20,7 @@ export default function Mealplan({ user }) {
         if (docSnap.exists()) {
           const mealPlanData = docSnap.data().mealPlans[mealPlanId];
           if (mealPlanData) {
+            console.log("Meal plan found:", mealPlanData);
             setMealPlanRecipes(mealPlanData.recipes);
           } else {
             console.log("Meal plan not found");
@@ -33,7 +34,12 @@ export default function Mealplan({ user }) {
     }
   }, [user, mealPlanId]);
 
-  
+  const navigate = useNavigate();
+  function openRecipe(recipeId) {
+    console.log(`Navigating to recipe with id: ${recipeId}`);
+
+    navigate(`/recipes/${recipeId}`);
+  }
 
   return (
     <>
@@ -42,14 +48,16 @@ export default function Mealplan({ user }) {
         <h1 className="header">Your Meal Plan</h1>
         <section className="mealplan-container">
           {mealPlanRecipes.map((recipe) => (
-            <MealplanCard recipe={recipe} key={recipe.id} />
+            <MealplanCard
+              recipe={recipe}
+              key={recipe.id}
+              onClick={openRecipe}
+            />
           ))}
         </section>
       </section>
       <section className="mealplan-button-container">
-        <button className="button-primary mealplan-button">
-          Start new
-        </button>
+        <button className="button-primary mealplan-button">Start new</button>
         <button className="button-primary mealplan-button">
           Add all to shopping list
         </button>

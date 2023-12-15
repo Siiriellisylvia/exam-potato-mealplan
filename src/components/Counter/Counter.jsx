@@ -1,4 +1,3 @@
-import Button from "../Button/Button";
 import "./Counter.css";
 export default function Counter({ value, onChange }) {
 
@@ -16,9 +15,9 @@ export default function Counter({ value, onChange }) {
 
     return (
       <section className="servingSize">
-        <Button className="button-rounded material-symbols-rounded" text="Remove" onClick={handleDecrement} />
+        <button className="button-rounded material-symbols-rounded" onClick={handleDecrement}>Remove</button>
         <span>{value} servings</span>
-        <Button className="button-rounded material-symbols-rounded" text="Add" onClick={handleIncrement} />
+        <button className="button-rounded material-symbols-rounded" onClick={handleIncrement}>Add</button>
       </section>
     );
 

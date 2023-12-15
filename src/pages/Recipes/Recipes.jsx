@@ -15,7 +15,8 @@ import {
 import { mealplansRef, recipesRef, usersRef } from "../../firebase-config";
 import RecipeCard from "../../components/RecipeCard/RecipeCard";
 import { useNavigate } from "react-router-dom";
-import SearchAndFilter from "../../components/SearchFilter/SearchFilter";
+import SearchBar from "../../components/SearchBar/SearchBar";
+import CategoryTag from "../../components/CategoryTag/CategoryTag";
 
 export default function Recipes({ recipe, user }) {
   const navigate = useNavigate();
@@ -168,22 +169,26 @@ export default function Recipes({ recipe, user }) {
     }
   };
 
+  function handleAddRecipeClick() {
+    navigate(`/addrecipe`);
+  }
   return (
     <>
       <TopBar />
       <section className="page">
         <h1 className="header">Hello Siiri</h1>
         <h2 className="header">Build your first meal plan</h2>
-        <SearchAndFilter />
-        <button
-          className="button-primary mealplan-button"
-          onClick={async () => {
-            const randomRecipes = await fetchRandomRecipes();
-            createMealPlan(randomRecipes);
-          }}
-        >
-          Decide for me
-        </button>
+        <section className="search-filter-bar">
+          <SearchBar />
+          {/* <MultiFilter /> */}
+        </section>
+        <section className="recipe-category-tags">
+          <CategoryTag tag="Vegan" />
+          <CategoryTag tag="Fast" />
+          <CategoryTag tag="Pumpkin" />
+          <CategoryTag tag="Asian" />
+        </section>
+
         <section className="recipesFeed">
           {recipes.map((recipe) => (
             <RecipeCard
@@ -194,35 +199,53 @@ export default function Recipes({ recipe, user }) {
             />
           ))}
         </section>
-
-        {selectedRecipes.length > 0 && (
-          <div className="buttonContainer">
-            <section className="selectedRecipes">
-              {selectedRecipes.map((recipe) => (
-                <div key={recipe.id} className="selectedRecipeContainer">
-                  <img
-                    src={recipe.image}
-                    alt={recipe.title}
-                    className="selectedRecipeImage"
-                  />
-                  <button
-                    className="deleteRecipeButton material-symbols-rounded"
-                    onClick={() => removeRecipeFromMealPlan(recipe.id)}
-                  >
-                    close
-                  </button>
-                </div>
-              ))}
-            </section>
-            <button
-              className="button-primary mealplan-button"
-              onClick={() => createMealPlan(selectedRecipes)}
-            >
-              Create mealplan
-            </button>
-          </div>
-        )}
       </section>
+
+      {selectedRecipes.length > 0 ? (
+        <div className="buttonContainer">
+          <section className="selectedRecipes">
+            {selectedRecipes.map((recipe) => (
+              <div key={recipe.id} className="selectedRecipeContainer">
+                <img
+                  src={recipe.image}
+                  alt={recipe.title}
+                  className="selectedRecipeImage"
+                />
+                <button
+                  className="deleteRecipeButton material-symbols-rounded"
+                  onClick={() => removeRecipeFromMealPlan(recipe.id)}
+                >
+                  close
+                </button>
+              </div>
+            ))}
+          </section>
+          <button
+            className="button-primary mealplan-button"
+            onClick={() => createMealPlan(selectedRecipes)}
+          >
+            Create mealplan
+          </button>
+        </div>
+      ) : (
+        <div className="buttonContainer decide-for-me">
+          <button
+            className="button-primary mealplan-button"
+            onClick={async () => {
+              const randomRecipes = await fetchRandomRecipes();
+              createMealPlan(randomRecipes);
+            }}
+          >
+            Decide for me
+          </button>
+          <button
+            className="button-primary mealplan-button"
+            onClick={handleAddRecipeClick}
+          >
+            Add recipe
+          </button>
+        </div>
+      )}
       <NavBar />
     </>
   );

@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import placeholderImage from "../../assets/placeholder-image.png";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { storage } from "../../firebase-config";
+import { recipesRef, storage } from "../../firebase-config";
 import Counter from "../Counter/Counter";
 import "./RecipeForm.css";
 import CategoryTag from "../CategoryTag/CategoryTag";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
-export default function RecipeForm({ saveRecipe, recipe }) {
+export default function EditRecipe() {
+
+  const navigate = useNavigate();
+  const { recipeId } = useParams();
+
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
   const [imageFile, setImageFile] = useState("");
@@ -20,23 +25,26 @@ export default function RecipeForm({ saveRecipe, recipe }) {
   const [description, setDescription] = useState(""); // New state for description
   const [errorMessage, setErrorMessage] = useState("");
 
+
   useEffect(() => {
-    if (
-      recipe?.title &&
-      recipe?.image &&
-      recipe?.servingSize &&
-      recipe?.ingredients &&
-      recipe?.steps
-    ) {
-      // if recipe, set the states with values from the recipe object
-      // The recipe object is a prop, passed from Recipes
-      setTitle(recipe.title);
-      setImage(recipe.image);
-      setServingSize(recipe.servingSize);
-      setSavedIngredients(recipe.ingredients);
-      setSavedSteps(recipe.steps);
-    }
-  }, [recipe]); // useEffect is called every time recipe changes.
+    const fetchRecipe = async () => {
+      const recipeDocRef = doc(recipesRef, recipeId);
+      const docSnapshot = await getDoc(recipeDocRef);
+
+      if (docSnapshot.exists()) {
+        const recipeData = docSnapshot.data();
+        setTitle(recipeData.title);
+        setImage(recipeData.image);
+        setServingSize(recipeData.servingSize);
+        setSavedIngredients(recipeData.ingredients);
+        setSavedSteps(recipeData.steps);
+      } else {
+        console.log("recipe not found");
+      }
+    };
+
+    fetchRecipe();
+  }, [recipeId]);
 
   /**
    * handleImageChange is called every time the user chooses an image in the fire system.
@@ -117,6 +125,21 @@ export default function RecipeForm({ saveRecipe, recipe }) {
     setSavedSteps(updatedSteps);
   };
 
+const updateRecipe = async (updatedRecipeData) => {
+  try {
+    const recipeDocRef = doc(recipesRef, recipeId);
+    await updateDoc(recipeDocRef, updatedRecipeData);
+    console.log("Recipe updated successfully!");
+    navigate(`/recipes/${recipeId}`);
+  } catch (error) {
+    console.log("Error updating recipe:", error);
+  }
+  };
+
+  const handleCancel = () => {
+    navigate(`/recipes/${recipeId}`);
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
     console.log("Form Submitted with Data:", {
@@ -138,19 +161,28 @@ export default function RecipeForm({ saveRecipe, recipe }) {
       tags: getChosenTags(),
     };
 
-    if (imageFile) {
-      formData.image = await handleUploadImage(); // call handleUploadImage to upload the image to firebase storage and get the download URL
-    }
-
     const validForm =
       formData.title &&
       formData.image &&
       formData.servingSize &&
       formData.ingredients &&
       formData.steps; // will return false if one of the properties doesn't have a value
-    if (validForm) {
+    
+      if (validForm) {
+      const updatedRecipeData = {
+        title,
+        image,
+        servingSize,
+        ingredients: savedIngredients,
+        steps: savedSteps,
+        tags: getChosenTags(),
+      };
+
+      if (imageFile) {
+      formData.image = await handleUploadImage(); // call handleUploadImage to upload the image to firebase storage and get the download URL
+    }
       // if all fields/ properties are filled, then call saveRecipe
-      saveRecipe(formData);
+      updateRecipe(updatedRecipeData);
     } else {
       // if not, set errorMessage state.
       setErrorMessage("Please, fill in all fields.");
@@ -324,7 +356,10 @@ export default function RecipeForm({ saveRecipe, recipe }) {
       </>
       <p className="text-error">{errorMessage}</p>
       <button className="button-primary" type="submit">
-        Save recipe
+        Update recipe
+      </button>
+      <button className="button-outline" type="button" onClick={handleCancel}>
+        Cancel
       </button>
     </form>
   );

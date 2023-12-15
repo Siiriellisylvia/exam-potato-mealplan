@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getDoc, doc } from "firebase/firestore";
+import { useNavigate, useParams } from "react-router-dom";
+import { getDoc, doc, deleteDoc } from "firebase/firestore";
 import { recipesRef } from "../../firebase-config";
 import TopBar from "../../components/TopBar/TopBar";
 import "./Recipe.css";
@@ -16,6 +16,8 @@ export default function Recipe() {
     steps: [{ description: "" }],
     tags: [""],
   });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -50,29 +52,86 @@ export default function Recipe() {
 
   console.log("Recipe State:", recipe);
 
+  //-----------------horizontal kebab menu-----------------//
+
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  // toggle dropdown visibility
+
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+
+  // //function to handle edit
+  // const handleEdit = () => {};
+
+const handleDelete = async () => {
+  try {
+    const recipeDocRef = doc(recipesRef, recipeId);
+    await deleteDoc(recipeDocRef);
+    console.log("Recipe deleted successfully");
+    navigate("/recipes");
+  } catch (error) {
+    console.error("Error deleting recipe:", error);
+  }
+};
+
   return (
     <div className="page recipePage">
       <TopBar />
       <h1 className="header">{recipe.title}</h1>
-      <img src={recipe.image} alt={recipe.title} />
-
+      <div className="recipe-image-container">
+        <img src={recipe.image} alt={recipe.title} className="recipe-image" />
+        <button onClick={toggleDropdown} className="material-symbols-rounded recipe-kebab-icon">
+          more_horiz
+        </button>
+        {showDropdown && (
+          <div className="dropdown-menu">
+            <button>Edit</button>
+            <button onClick={handleDelete}>Delete</button>
+          </div>
+        )}
+      </div>
       {recipe.tags.map((tag) => (
         <RecipeTag tag={tag} key={tag} />
       ))}
 
+      <section className="mealplan-card-info-icons">
+        <button className="button-primary button-square material-symbols-rounded">
+          edit
+        </button>
+        <button className="button-primary button-square material-symbols-rounded">
+          list_alt_add
+        </button>
+        <button className="button-primary button-square material-symbols-rounded">
+          delete
+        </button>
+        <button className="button-primary button-square material-symbols-rounded">
+          add
+        </button>
+      </section>
       <h2>Ingredients:</h2>
-      <ul>
+      <ul className="recipe-ingredients-list">
         {recipe.ingredients.map((ingredient, index) => (
-          <li key={index}>
-            {ingredient.amount} {ingredient.unit} {ingredient.ingredient}
+          <li key={index} className="recipe-ingredient-list">
+            <section>
+              <section className="recipe-amountAndUnit">
+                {ingredient.amount} {ingredient.unit}
+                <span style={{ marginLeft: "5px" }}></span>
+              </section>
+              {ingredient.ingredient}
+            </section>
           </li>
         ))}
       </ul>
 
       <h2>Instructions:</h2>
-      <ul>
+      <ul className="recipe-steps-container">
         {recipe.steps.map((step, index) => (
-          <li key={index}>{step.description}</li>
+          <li key={index} className="recipe-step-description-container">
+            <div className="button-rounded">{index + 1}</div>
+            {step.description}
+          </li>
         ))}
       </ul>
     </div>
