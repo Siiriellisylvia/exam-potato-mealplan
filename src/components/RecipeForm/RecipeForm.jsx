@@ -164,17 +164,17 @@ export default function RecipeForm({ saveRecipe, recipe }) {
     return downloadURL;
   }
 
-//----------------Tags Choice-----------------//
+  //----------------Tags Choice-----------------//
 
-const cookingTimeTags = ["Fast", "Normal", "Slow"];
-const proteinTags = ["Vegan", "Vegetarian", "Chicken", "Beef", "Pork"];
+  const cookingTimeTags = ["Fast", "Normal", "Slow"];
+  const proteinTags = ["Vegan", "Vegetarian", "Chicken", "Beef", "Pork"];
 
   const toggleTagSelection = (tag) => {
     console.log("Tag clicked:", tag);
     setSelectedTags((currentTags) =>
       currentTags.includes(tag)
-      ? currentTags.filter((t) => t !== tag)
-      : [...currentTags, tag]
+        ? currentTags.filter((t) => t !== tag)
+        : [...currentTags, tag]
     );
   };
 
@@ -198,6 +198,40 @@ const proteinTags = ["Vegan", "Vegetarian", "Chicken", "Beef", "Pork"];
   //     chosenTags.push(tagElement.textContent);
   //   });
 
+  //----------edit ingredients and steps----------//
+  const [editingIndex, setEditingIndex] = useState(null);
+
+  const updateIngredientAmount = (index, newAmount) => {
+    // Update the amount of the ingredient at the given index
+    setSavedIngredients((ingredients) =>
+      ingredients.map((ing, idx) =>
+        idx === index ? { ...ing, amount: newAmount } : ing
+      )
+    );
+  };
+
+  const updateIngredientUnit = (index, newUnit) => {
+    // Update the unit of the ingredient at the given index
+    setSavedIngredients((ingredients) =>
+      ingredients.map((ing, idx) =>
+        idx === index ? { ...ing, unit: newUnit } : ing
+      )
+    );
+  };
+
+  const updateIngredientName = (index, newName) => {
+    // Update the name of the ingredient at the given index
+    setSavedIngredients((ingredients) =>
+      ingredients.map((ing, idx) =>
+        idx === index ? { ...ing, ingredient: newName } : ing
+      )
+    );
+  };
+
+  const saveEdit = () => {
+    setEditingIndex(null);
+    console.log("SavedIngredients After Edit:", editingIndex);
+  };
 
   return (
     <form onSubmit={handleSubmit} className="addRecipe">
@@ -232,26 +266,64 @@ const proteinTags = ["Vegan", "Vegetarian", "Chicken", "Beef", "Pork"];
 
       <label>
         Ingredients
-        <ul style={{ display: savedIngredients.length > 0 ? "block" : "none" }}>
+        <ul>
           {savedIngredients.map((ingredient, index) => (
-            <li key={index} className="ingredient-list">
-              <section>
-                <section className="amountAndUnit">
-                  {ingredient.amount}
-                  <span style={{ marginLeft: "5px" }}></span>
-                  {ingredient.unit}
-                </section>
-                {ingredient.ingredient}
-              </section>
-              <div
-                className="button-primary material-symbols-rounded"
-                type="button"
-                onClick={() => {
-                  handleDeleteIngredient(index);
-                }}
-              >
-                Delete
-              </div>
+            <li key={index} className="ingredient-list-edit">
+              {editingIndex === index ? (
+                // Render input fields for editing
+                <div className="ingredient-fields">
+                  <input
+                    type="number"
+                    value={ingredient.amount}
+                    onChange={(e) =>
+                      updateIngredientAmount(index, e.target.value)
+                    }
+                  />
+                  <input
+                    type="text"
+                    value={ingredient.unit}
+                    onChange={(e) =>
+                      updateIngredientUnit(index, e.target.value)
+                    }
+                  />
+                  <input
+                    type="text"
+                    value={ingredient.ingredient}
+                    onChange={(e) =>
+                      updateIngredientName(index, e.target.value)
+                    }
+                  />
+                  <div className="button-primary button-save" onClick={saveEdit}>
+                    Save
+                  </div>
+                </div>
+              ) : (
+                // Render static view of the ingredient
+                <div key={index} className="ingredient-list">
+                    <section className="ingredient-info">
+                      <section className="amountAndUnit">
+                        {ingredient.amount}
+                        <span style={{ marginLeft: "5px" }}></span>
+                        {ingredient.unit}
+                      </section>
+                      {ingredient.ingredient}
+                      </section>
+                      <section className="ingredient-buttons">
+                        <div
+                          className="button-primary material-symbols-rounded"
+                          onClick={() => setEditingIndex(index)}
+                        >
+                          Edit
+                        </div>
+                        <div
+                          className="button-primary button-outline-teal material-symbols-rounded"
+                          onClick={() => handleDeleteIngredient(index)}
+                        >
+                          Delete
+                        </div>
+                      </section>
+                </div>
+              )}
             </li>
           ))}
         </ul>

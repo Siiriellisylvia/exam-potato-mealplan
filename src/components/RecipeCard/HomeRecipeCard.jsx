@@ -21,7 +21,7 @@ export default function HomeRecipeCard({ recipe }) {
             />
           </div>
         </div>
-        <h2>{recipe.title}</h2>
+        <h3>{recipe.title}</h3>
       </article>
     </section>
   );

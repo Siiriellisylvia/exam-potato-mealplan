@@ -155,35 +155,35 @@ export default function Recipes({ recipe, user }) {
 
   //-------RANDOM RECIPES FUNCTION----------//
 
-  const fetchRandomRecipes = async () => {
-    try {
-      // Fetch all document IDs from the recipes collection
-      const recipesQuery = query(recipesRef);
-      const querySnapshot = await getDocs(recipesQuery);
-      const allRecipeIds = querySnapshot.docs.map((doc) => doc.id);
+const fetchRandomRecipes = async () => {
+  try {
+    // Fetch all document IDs from the recipes collection
+    const recipesQuery = query(recipesRef);
+    const querySnapshot = await getDocs(recipesQuery);
+    const allRecipeIds = querySnapshot.docs.map((doc) => doc.id);
 
-      // Randomly select a few IDs (e.g., 4)
-      const selectedIds = allRecipeIds
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 4);
+    // Randomly select a few IDs (e.g., 4)
+    const selectedIds = allRecipeIds
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 4);
 
-      // Fetch complete data for these selected IDs
-      const selectedRecipesPromises = selectedIds.map((id) => {
-        const recipeDocRef = doc(recipesRef, id);
-        return getDoc(recipeDocRef);
-      });
-      const selectedRecipesDocs = await Promise.all(selectedRecipesPromises);
-      const selectedRecipes = selectedRecipesDocs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+    // Fetch complete data for these selected IDs
+    const selectedRecipesPromises = selectedIds.map((id) => {
+      const recipeDocRef = doc(recipesRef, id);
+      return getDoc(recipeDocRef);
+    });
+    const selectedRecipesDocs = await Promise.all(selectedRecipesPromises);
+    const selectedRecipes = selectedRecipesDocs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
 
-      return selectedRecipes;
-    } catch (error) {
-      console.error("Error fetching random recipes:", error);
-      return [];
-    }
-  };
+    return selectedRecipes;
+  } catch (error) {
+    console.error("Error fetching random recipes:", error);
+    return [];
+  }
+};
 
   //-------ADD RECIPE BUTTON----------//
 

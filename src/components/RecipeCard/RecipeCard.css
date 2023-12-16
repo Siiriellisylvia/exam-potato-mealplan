@@ -18,7 +18,7 @@
   position: relative;
 }
 
-.homeRecipeCard > h2 {
+.homeRecipeCard > h3 {
   font-family: var(--heading-font);
   font-size: var(--subheading-size-small);
   font-weight: var(--font-weight-bold);
@@ -26,7 +26,7 @@
   padding: 0.25rem 0.5rem 0.5rem 0.5rem;
 }
 
-.recipeCard > h2 {
+.recipeCard > h3 {
   font-family: var(--heading-font);
   font-size: var(--subheading-size-small);
   font-weight: var(--font-weight-bold);

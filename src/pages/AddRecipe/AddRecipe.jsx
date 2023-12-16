@@ -15,7 +15,7 @@ export default function AddRecipe() {
         newRecipe.uid = auth.currentUser.uid; // uid of auth user / signed in user
         await addDoc(recipesRef, newRecipe); // add new doc - new recipe object
 
-        navigate("/recipes");
+        navigate("/");
     }
 
     return (

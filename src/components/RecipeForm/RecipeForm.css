@@ -5,7 +5,6 @@ form {
 }
 
 input {
-  margin-top: 4px;
   width: 100%;
   padding: 1em;
   box-sizing: border-box;
@@ -51,9 +50,20 @@ label {
   justify-content: space-between;
   padding-bottom: 0.5rem;
   font-size: var(--body-text-size);
+  width:100%
 }
 
-.ingredient-list > section {
+.ingredient-list-edit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
+  font-size: var(--body-text-size);
+  width:100%;
+
+}
+
+.ingredient-info {
   display: flex;
   gap: 3rem;
   align-items: center;
@@ -73,6 +83,22 @@ label {
   gap: 0.5rem;
 }
 
+.button-save {
+  font-size: var(--body-text-size);
+  font-family: var(--body-font)
+}
+
+
+.ingredient-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.ingredient-buttons > .material-symbols-rounded {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 30;
+  font-size: 1rem;
+}
 .addRecipe {
   display: flex;
   flex-direction: column;
@@ -96,6 +122,7 @@ label {
 .chooseTagRow {
   font-family: var(--body-font);
   font-weight: var(--font-weight-bold);
+  color: var(--dark-text);
   height: 48px; /* Set the desired height */
   overflow-y: auto;
   white-space: nowrap;
@@ -113,6 +140,7 @@ ul {
   list-style-type: none;
   padding: 0;
   margin: 0.5rem 0rem 0rem 0rem;
+  width:100%
 }
 
 .button-add {
