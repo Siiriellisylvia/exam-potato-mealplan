@@ -6,7 +6,12 @@
   width: 50%;
   padding: 0.5rem;
   border-radius: 8px;
-  margin-top: 4px;
+  margin-top: 0.25rem;
+}
+
+.servingSize > span {
+  font-size: var(--body-text-size);
+  font-weight: var(--font-weight-bold);
 }
 
 .servingSize > .material-symbols-rounded {

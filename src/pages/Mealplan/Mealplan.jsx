@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { doc, getDoc } from "firebase/firestore";
+import {deleteField, doc, getDoc, updateDoc } from "firebase/firestore";
 import { mealplansRef } from "../../firebase-config";
 import MealplanCard from "../../components/MealplanCards/MealPlanCard";
 import NavBar from "../../components/NavBar/NavBar";
 import TopBar from "../../components/TopBar/TopBar";
 import "./Mealplan.css"; // Create a CSS file for styling if needed
+import MealplanModal from "../../components/DeleteConfirmationModal/MealplanModal";
 
-export default function Mealplan({ user, recipe }) {
+export default function Mealplan({ user, recipe, setCurrentMealPlanId }) {
   const { mealPlanId } = useParams(); // Get the mealPlanId from the URL
   const [mealPlanRecipes, setMealPlanRecipes] = useState([]);
 
@@ -34,6 +35,50 @@ export default function Mealplan({ user, recipe }) {
     }
   }, [user, mealPlanId, recipe]);
 
+  // // Function to delete the meal plan
+  // const deleteMealPlan = async () => {
+  //   if (window.confirm("Are you sure you want to delete this meal plan?")) {
+  //     const mealPlanDocRef = doc(mealplansRef, user.uid);
+
+  //     await updateDoc(mealPlanDocRef, {
+  //       [`mealPlans.${mealPlanId}`]: deleteField(), // Use deleteField to remove a specific field
+  //     });
+
+  //     navigate("/"); // Navigate to another page after deletion
+  //   }
+  // };
+
+  //--------confirmation modal--------//
+
+  //-----------------delete confirmation modal-----------------//
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // function to show modal
+  const showDeleteModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // function to close modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+const confirmDeletion = async () => {
+  closeModal();
+  try {
+    const mealPlanDocRef = doc(mealplansRef, user.uid);
+    await updateDoc(mealPlanDocRef, {
+      [`mealPlans.${mealPlanId}`]: deleteField(), // Use deleteField to remove a specific field
+    });
+    console.log("Meal plan deleted successfully");
+    setCurrentMealPlanId(null); // Reset the current meal plan ID
+
+    navigate("/"); // Navigate to the main page
+  } catch (error) {
+    console.error("Error deleting meal plan:", error);
+  }
+};
+
   const navigate = useNavigate();
   function openRecipe(recipeId) {
     console.log(`Navigating to recipe with id: ${recipeId}`);
@@ -45,6 +90,11 @@ export default function Mealplan({ user, recipe }) {
     <>
       <TopBar />
       <section className="page">
+        <MealplanModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          onConfirm={confirmDeletion}
+        />
         <h1 className="header">Your Meal Plan</h1>
         <section className="mealplan-container">
           {mealPlanRecipes.map((recipe) => (
@@ -57,7 +107,12 @@ export default function Mealplan({ user, recipe }) {
         </section>
       </section>
       <section className="mealplan-button-container">
-        <button className="button-primary mealplan-button">Start new</button>
+        <button
+          className="button-primary mealplan-button"
+          onClick={showDeleteModal}
+        >
+          Start new
+        </button>
         <button className="button-primary mealplan-button">
           Add all to shopping list
         </button>

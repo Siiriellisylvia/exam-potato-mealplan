@@ -11,16 +11,16 @@ import {
   query,
   setDoc,
   updateDoc,
+  deleteField,
 } from "firebase/firestore";
 import { mealplansRef, recipesRef, usersRef } from "../../firebase-config";
 import RecipeCard from "../../components/RecipeCard/RecipeCard";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import CategoryTag from "../../components/CategoryTag/CategoryTag";
 
 export default function Recipes({ recipe, user }) {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [userName, setUserName] = useState("");
 
@@ -124,55 +124,68 @@ export default function Recipes({ recipe, user }) {
         },
       };
 
-      //reference to the users doc in the mealplans collection
-      const userDocRef = doc(mealplansRef, user.uid);
-
       try {
-        //first, ensure doc exists
-        await setDoc(userDocRef, {}, { merge: true });
-        //update the user's doc with the new mealplan
-        //using updatedoc to merge the new mealplan with existing ones
-        await updateDoc(userDocRef, {
+        const userMealPlanDocRef = doc(mealplansRef, user.uid);
+        const userDocRef = doc(usersRef, user.uid);
+
+        // First, update the meal plan
+        await updateDoc(userMealPlanDocRef, {
           [`mealPlans.${mealPlanId}`]: newMealPlan[mealPlanId],
         });
 
-        // setSelectedRecipes([]);
-        // console.log("Mealplan created successfully");
+        // Then, delete the selectedRecipes array
+        await updateDoc(userDocRef, {
+          selectedRecipes: deleteField(),
+        });
 
-        // await updateDoc(userDocRef, {
-        //   selectedRecipes: deleteField(),
-        // });
-
+        console.log(
+          "Meal plan created and selectedRecipes deleted successfully"
+        );
         navigate(`/mealplan/${mealPlanId}`);
       } catch (error) {
-        console.log("Error creating mealplan", error);
+        console.log(
+          "Error creating mealplan or deleting selectedRecipes",
+          error
+        );
       }
     } else {
       console.log("No user or no recipes selected");
     }
   };
 
-  //RANDOM RECIPES FUNCTION
+  //-------RANDOM RECIPES FUNCTION----------//
+
   const fetchRandomRecipes = async () => {
     try {
-      // Adjust the limit as per your need
-      const recipesQuery = query(recipesRef, limit(4));
+      // Fetch all document IDs from the recipes collection
+      const recipesQuery = query(recipesRef);
       const querySnapshot = await getDocs(recipesQuery);
-      console.log(querySnapshot.docs);
+      const allRecipeIds = querySnapshot.docs.map((doc) => doc.id);
 
-      const fetchedRecipes = querySnapshot.docs.map((doc) => doc.data());
-      console.log("Fetched Recipes:", fetchedRecipes); // Log fetched recipes for debugging
-      // Shuffle and select a subset if necessary
-      const randomRecipes = fetchedRecipes
+      // Randomly select a few IDs (e.g., 4)
+      const selectedIds = allRecipeIds
         .sort(() => 0.5 - Math.random())
         .slice(0, 4);
 
-      return randomRecipes;
+      // Fetch complete data for these selected IDs
+      const selectedRecipesPromises = selectedIds.map((id) => {
+        const recipeDocRef = doc(recipesRef, id);
+        return getDoc(recipeDocRef);
+      });
+      const selectedRecipesDocs = await Promise.all(selectedRecipesPromises);
+      const selectedRecipes = selectedRecipesDocs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      return selectedRecipes;
     } catch (error) {
       console.error("Error fetching random recipes:", error);
       return [];
     }
   };
+
+  //-------ADD RECIPE BUTTON----------//
 
   function handleAddRecipeClick() {
     navigate(`/addrecipe`);
@@ -195,11 +208,9 @@ export default function Recipes({ recipe, user }) {
     <>
       <TopBar />
       <section className="page recipes-page">
-        <h1>Hi {userName}!</h1>
+        <h1 className="header">Hi {userName}!</h1>
         <h2>What's for dinner?</h2>
-        <p className="header">
-          Start your first meal plan by selecting recipes
-        </p>
+        <p className="header">Start your meal plan by selecting recipes</p>
         <section className="search-filter-bar">
           <SearchBar
             searchValue={searchQuery}

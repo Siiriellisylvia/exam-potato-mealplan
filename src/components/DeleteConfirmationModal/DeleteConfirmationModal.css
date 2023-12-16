@@ -13,11 +13,17 @@
 .modal {
   background-color: var(--off-white);
   margin: 50% auto; /* 15% from the top and - */
-  padding: 2rem 1rem 2rem 1rem;
+  padding: 3rem 1rem 2rem 1rem;
   border-radius: 8px;
   width: 280px; /* Could be more or less, depending on screen size */
   align-items: center;
+  justify-content: center;
   position:relative;
+}
+
+.modal > p {
+  padding-left:2rem;
+  padding-right:2rem;
 }
 
 .modal > .material-symbols-rounded {

@@ -41,10 +41,6 @@
   /* Add more styling as needed */
 }
 
-.dropdown-menu > button {
-  background-color: ;
-}
-
 .recipe-steps-container {
   display: flex;
   flex-direction: column;

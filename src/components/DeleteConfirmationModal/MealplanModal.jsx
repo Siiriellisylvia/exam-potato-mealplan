@@ -1,7 +1,7 @@
 import "./DeleteConfirmationModal.css";
 
 
-export default function DeleteConfirmationModal({
+export default function MealplanModal({
   isOpen,
   onClose,
   onConfirm,
@@ -14,7 +14,7 @@ export default function DeleteConfirmationModal({
         <button className="material-symbols-rounded" onClick={onClose}>
           close
         </button>
-        <p>Are you sure you want to delete this recipe?</p>
+        <p>Starting a new mealplan will delete this one. Are you sure?</p>
         <div className="modal-buttons">
           <button className="button-primary" onClick={onConfirm}>Yes</button>
           <button className="button-primary button-outline-teal"onClick={onClose}>Cancel</button>

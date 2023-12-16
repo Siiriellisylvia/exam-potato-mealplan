@@ -5,7 +5,7 @@ export default function RecipeHeader({title}) {
   const navigate = useNavigate();
 
   const goBack = () => {
-    navigate("/recipes");
+    navigate("/");
   };
 
   return (

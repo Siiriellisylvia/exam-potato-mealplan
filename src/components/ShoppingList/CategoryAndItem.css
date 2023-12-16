@@ -1,17 +1,35 @@
-.shopping-list-category {
-    background-color: var(--off-white-50);
+.category-content-container    {
+  background-color: var(--off-white-50);
     border-radius: 8px;
     display: flex;
-    width:100%;
-
+    flex-direction: column;
+    width: 100%;
+    margin-top:1rem;
 }
+
+.category-content {
+  padding:1rem;
+}
+
 .item {
   display: flex;
-  align-items: center;
   gap: 10px; /* Adjust spacing as needed */
   padding: 10px;
-  position: relative; /* Needed for absolute positioning of the pseudo-element */
+  color:var(--dark-text);
+  position:relative;
 }
+
+.item-name-and-quantity {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width:100%;
+}
+
+.quantity-and-unit {
+  font-weight: var(--font-weight-bold);
+}
+
 
 .strikethrough::after {
   content: '';

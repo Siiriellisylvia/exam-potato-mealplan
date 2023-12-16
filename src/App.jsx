@@ -78,9 +78,14 @@ export default function App() {
 
         <Route
           path="/mealplan/:mealPlanId"
-          element={<Mealplan user={currentUser} />}
+          element={
+            <Mealplan
+              user={currentUser}
+              setCurrentMealPlanId={setCurrentMealPlanId}
+            />
+          }
         />
-        <Route path="/groceries" element={<ShoppingList/>} />
+        <Route path="/groceries" element={<ShoppingList />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/recipes" element={<Recipes />} />
         <Route path="/editrecipe/:recipeId" element={<EditRecipe />} />

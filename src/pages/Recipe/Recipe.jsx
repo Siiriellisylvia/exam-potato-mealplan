@@ -69,16 +69,16 @@ export default function Recipe() {
     navigate(`/editrecipe/${recipeId}`);
   };
 
-  const handleDelete = async () => {
-    try {
-      const recipeDocRef = doc(recipesRef, recipeId);
-      await deleteDoc(recipeDocRef);
-      console.log("Recipe deleted successfully");
-      navigate("/recipes");
-    } catch (error) {
-      console.error("Error deleting recipe:", error);
-    }
-  };
+  // const handleDelete = async () => {
+  //   try {
+  //     const recipeDocRef = doc(recipesRef, recipeId);
+  //     await deleteDoc(recipeDocRef);
+  //     console.log("Recipe deleted successfully");
+  //     navigate("/recipes");
+  //   } catch (error) {
+  //     console.error("Error deleting recipe:", error);
+  //   }
+  // };
 
   //-----------------delete confirmation modal-----------------//
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -101,7 +101,7 @@ export default function Recipe() {
       const recipeDocRef = doc(recipesRef, recipeId);
       await deleteDoc(recipeDocRef);
       console.log("Recipe deleted successfully");
-      navigate("/recipes");
+      navigate("/");
     } catch (error) {
       console.error("Error deleting recipe:", error);
     }

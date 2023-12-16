@@ -1,7 +1,6 @@
 form {
   margin: auto;
   text-align: left;
-  background-color: var(--white);
   animation: fadeIn 0.5s;
 }
 
@@ -14,6 +13,14 @@ input {
   background: var(--off-white-50);
   border: none;
   border-radius: 8px;
+  font-size: var(--body-text-small-size);
+  color:var(--dark-teal);
+  font-family: var(--body-font);
+  
+}
+
+input:focus {
+  outline: 2px solid var(--dark-orange); /* Change to your desired color and style */
 }
 
 label {
@@ -43,17 +50,19 @@ label {
   align-items: center;
   justify-content: space-between;
   padding-bottom: 0.5rem;
-  font-size: var(--subheading-size-small);
+  font-size: var(--body-text-size);
 }
 
 .ingredient-list > section {
   display: flex;
   gap: 3rem;
   align-items: center;
+  font-weight: var(--font-weight-regular);
 }
 
 .amountAndUnit {
   width: 3rem;
+  font-weight: var(--font-weight-bold);
 }
 
 .ingredient-fields {
@@ -128,5 +137,5 @@ ul {
 
 .step-description {
   font-weight: var(--font-weight-regular);
-  font-size: var(--body-text-small-size);
+  font-size: var(--body-text-size);
 }
