@@ -34,9 +34,7 @@ export default function SignIn() {
         <img src={Potato}></img>
         <h1>POTATO</h1>
         <h2>SIMPLE MEAL PLAN</h2>
-        </section>
         <form onSubmit={signIn} className="signin">
-          <h2>Login</h2>
           <input type="email" name="mail" placeholder="Type your mail" />
           <input
             type="password"
@@ -50,5 +48,6 @@ export default function SignIn() {
           Don&apos;t have an account? <Link to="/signup">Sign Up</Link>
         </p>
       </section>
+    </section>
   );
 }

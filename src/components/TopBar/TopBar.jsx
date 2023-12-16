@@ -6,7 +6,7 @@ import "./TopBar.css";
 export default function TopBar() {
   return (
     <Link className="logoLink" to="/home">
-      <img src={Potato}></img>
+      <img src={Potato} alt="potato-logo"></img>
       <p>POTATO</p>
     </Link>
   );

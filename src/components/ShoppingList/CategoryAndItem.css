@@ -1,0 +1,41 @@
+.shopping-list-category {
+    background-color: var(--off-white-50);
+    border-radius: 8px;
+    display: flex;
+    width:100%;
+
+}
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adjust spacing as needed */
+  padding: 10px;
+  position: relative; /* Needed for absolute positioning of the pseudo-element */
+}
+
+.strikethrough::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  border-top: 2px solid #a8a8a8; /* Adjust the color to match your strikethrough color */
+  z-index: 1;
+}
+
+.grey-out {
+  color: #a8a8a8; /* Or any other color you want for the greyed-out state */
+  z-index: 2; /* Ensure the text appears above the strikethrough line */
+}
+
+.icon {
+  cursor: pointer;
+  z-index: 2; /* Ensure the icon appears above the strikethrough line */
+}
+
+.name,
+.quantity {
+  z-index: 2; /* Ensure the text appears above the strikethrough line */
+}
+
+/* Existing styles */

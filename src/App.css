@@ -77,8 +77,8 @@ p {
 }
 
 .page {
-  padding-top: 8vh;
-  padding-bottom: 10vh;
+  padding-top: 3rem;
+  padding-bottom: 7rem;
   padding-left: 1rem;
   padding-right: 1rem;
   background-color: var(--light-teal);
@@ -109,7 +109,7 @@ a {
 }
 
 .button-outline {
-  background-color: none;
+  background-color: transparent;
   border: 2px solid var(--dark-orange) !important;
   color: var(--dark-orange) !important;
 }
@@ -121,7 +121,26 @@ a {
 }
 
 .header {
-  margin-bottom: 1rem;
+  text-align:center;
+  margin-bottom:1rem;
+}
+
+.header-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom:1rem;
+}
+
+
+.header-container > .material-symbols-rounded {
+  font-variation-settings: "FILL" 1, "wght" 900, "GRAD" 0, "opsz" 30;
+  font-size: 1.5rem;
+  color:var(--dark-text);
+  position:absolute;
+  left:0;
+  padding:0.5rem;
 }
 
 .button-rounded {

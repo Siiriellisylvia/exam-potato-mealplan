@@ -15,9 +15,9 @@ export default function Counter({ value, onChange }) {
 
     return (
       <section className="servingSize">
-        <button className="button-rounded material-symbols-rounded" onClick={handleDecrement}>Remove</button>
+        <button type="button" className="button-rounded material-symbols-rounded" onClick={handleDecrement}>Remove</button>
         <span>{value} servings</span>
-        <button className="button-rounded material-symbols-rounded" onClick={handleIncrement}>Add</button>
+        <button type="button" className="button-rounded material-symbols-rounded" onClick={handleIncrement}>Add</button>
       </section>
     );
 

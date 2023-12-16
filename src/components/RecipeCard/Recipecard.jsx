@@ -1,13 +1,26 @@
 import { useNavigate } from "react-router-dom";
 import "./RecipeCard.css";
+import { useEffect, useState } from "react";
 
-export default function RecipeCard({ recipe, onAddToMealPlan }) {
+export default function RecipeCard({ recipe, onAddToMealPlan, isSelected, onRemoveFromMealPlan }) {
   const navigate = useNavigate();
 
+  const [isAdded, setIsAdded] = useState(isSelected);
+
+    useEffect(() => {
+      setIsAdded(isSelected);
+    }, [isSelected]);
+
   const handleAddClick = (e) => {
-    e.stopPropagation(); // Prevents the openRecipe from being triggered
+    e.stopPropagation();
     e.preventDefault();
-    onAddToMealPlan(recipe);
+if (isAdded) {
+  onRemoveFromMealPlan(recipe.id);
+} else {
+  onAddToMealPlan(recipe);
+}
+
+setIsAdded(!isAdded);
   };
 
   function openRecipe() {
@@ -22,7 +35,10 @@ export default function RecipeCard({ recipe, onAddToMealPlan }) {
           <div className="overlay">
             <button
               className="button-primary button-rounded material-symbols-rounded"
-              onClick={handleAddClick}>Add</button>
+              onClick={handleAddClick}
+            >
+              {isAdded ? "check" : "add"}
+            </button>
           </div>
         </div>
         <h2>{recipe.title}</h2>

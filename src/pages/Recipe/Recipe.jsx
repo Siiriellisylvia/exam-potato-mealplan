@@ -5,13 +5,14 @@ import { recipesRef } from "../../firebase-config";
 import TopBar from "../../components/TopBar/TopBar";
 import "./Recipe.css";
 import RecipeTag from "../../components/CategoryTag/RecipeTag";
+import Header from "../../components/Header/Header";
 
 export default function Recipe() {
   const { recipeId } = useParams();
   const [recipe, setRecipe] = useState({
     title: "",
     image: "",
-    ingredients: [{ ingredient: "", amount: "", unit: "" }],
+    ingredients: [{ ingredient: "", amount: "", unit: ""}],
     servingSize: "",
     steps: [{ description: "" }],
     tags: [""],
@@ -62,8 +63,10 @@ export default function Recipe() {
     setShowDropdown(!showDropdown);
   };
 
-  // //function to handle edit
-  // const handleEdit = () => {};
+  //function to handle edit
+  const handleEdit = () => {
+    navigate(`/editrecipe/${recipeId}`);
+  };
 
 const handleDelete = async () => {
   try {
@@ -79,7 +82,7 @@ const handleDelete = async () => {
   return (
     <div className="page recipePage">
       <TopBar />
-      <h1 className="header">{recipe.title}</h1>
+      <Header title={recipe.title} />
       <div className="recipe-image-container">
         <img src={recipe.image} alt={recipe.title} className="recipe-image" />
         <button onClick={toggleDropdown} className="material-symbols-rounded recipe-kebab-icon">
@@ -87,7 +90,7 @@ const handleDelete = async () => {
         </button>
         {showDropdown && (
           <div className="dropdown-menu">
-            <button>Edit</button>
+            <button onClick={handleEdit}>Edit</button>
             <button onClick={handleDelete}>Delete</button>
           </div>
         )}
@@ -97,14 +100,9 @@ const handleDelete = async () => {
       ))}
 
       <section className="mealplan-card-info-icons">
-        <button className="button-primary button-square material-symbols-rounded">
-          edit
-        </button>
+
         <button className="button-primary button-square material-symbols-rounded">
           list_alt_add
-        </button>
-        <button className="button-primary button-square material-symbols-rounded">
-          delete
         </button>
         <button className="button-primary button-square material-symbols-rounded">
           add

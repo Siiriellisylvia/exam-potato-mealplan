@@ -1,0 +1,16 @@
+.profile-container {
+
+    bottom:0;
+}
+
+.profile-addrecipe {
+    margin-top: 0.5rem;
+    width:100%;
+}
+
+.profile-logout {
+    bottom:0;
+    display:flex;
+    position:relative;
+    justify-content: center;
+}

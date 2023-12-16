@@ -3,7 +3,6 @@ import Landing from "./pages/Landing/Landing";
 import "./App.css";
 import SignUp from "./pages/SignUp/SignUp";
 import Mealplan from "./pages/Mealplan/Mealplan";
-import Groceries from "./pages/Groceries/Groceries";
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBar from "./components/NavBar/NavBar";
@@ -15,6 +14,8 @@ import AddRecipe from "./pages/AddRecipe/AddRecipe";
 import AddIngredients from "./pages/Playground/AddIngredients";
 import { mealplansRef } from "./firebase-config";
 import { doc, getDoc } from "firebase/firestore";
+import EditRecipe from "./pages/EditRecipe/EditRecipe";
+import ShoppingList from "./pages/ShoppingList/ShoppingList";
 // import { AuthProvider } from "./AuthContext";
 // import Todo from "./pages/Playground/Todo";
 
@@ -79,9 +80,10 @@ export default function App() {
           path="/mealplan/:mealPlanId"
           element={<Mealplan user={currentUser} />}
         />
-        <Route path="/groceries" element={<Groceries />} />
+        <Route path="/groceries" element={<ShoppingList/>} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/recipes" element={<Recipes />} />
+        <Route path="/editrecipe/:recipeId" element={<EditRecipe />} />
         <Route path="recipes/:recipeId" element={<Recipe />} />
         <Route path="/addrecipe" element={<AddRecipe />} />
         <Route path="/playground" element={<AddIngredients />} />

@@ -11,13 +11,14 @@
   width: 100%;
   min-height: 4.5rem;
   position: fixed;
-  bottom: 64px;
+  bottom: 4.1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 0.5rem;
   padding-top: 0.5rem;
   padding-bottom:0.5rem;
+  margin-bottom:0;
 }
 
 .decide-for-me {

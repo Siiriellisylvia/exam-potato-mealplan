@@ -7,7 +7,7 @@ import NavBar from "../../components/NavBar/NavBar";
 import TopBar from "../../components/TopBar/TopBar";
 import "./Mealplan.css"; // Create a CSS file for styling if needed
 
-export default function Mealplan({ user }) {
+export default function Mealplan({ user, recipe }) {
   const { mealPlanId } = useParams(); // Get the mealPlanId from the URL
   const [mealPlanRecipes, setMealPlanRecipes] = useState([]);
 
@@ -32,7 +32,7 @@ export default function Mealplan({ user }) {
 
       fetchMealPlan();
     }
-  }, [user, mealPlanId]);
+  }, [user, mealPlanId, recipe]);
 
   const navigate = useNavigate();
   function openRecipe(recipeId) {

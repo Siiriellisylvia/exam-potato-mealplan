@@ -45,28 +45,28 @@ export default function SignUp() {
         <img src={Potato}></img>
         <h1>POTATO</h1>
         <h2>SIMPLE MEAL PLAN</h2>
+        <form onSubmit={handleSignUp} className="signin">
+          <h2>Create and account</h2>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            name="name"
+            placeholder="Type your name"
+          />
+          <input type="email" name="mail" placeholder="Type your mail" />
+          <input
+            type="password"
+            name="password"
+            placeholder="Type your password"
+          />
+          <p className="text-error">{errorMessage}</p>
+          <button className="button-primary button-yellow">Sign Up</button>
+        </form>
+        <p className="text-center">
+          Already have an account? <Link to="/signin">Login</Link>
+        </p>
       </section>
-      <form onSubmit={handleSignUp} className="signin">
-        <h2>Sign Up</h2>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          name="name"
-          placeholder="Type your name"
-        />
-        <input type="email" name="mail" placeholder="Type your mail" />
-        <input
-          type="password"
-          name="password"
-          placeholder="Type your password"
-        />
-        <p className="text-error">{errorMessage}</p>
-        <button className="button-primary button-yellow">Sign Up</button>
-      </form>
-      <p className="text-center">
-        Already have an account? <Link to="/signin">Login</Link>
-      </p>
     </section>
   );
 }

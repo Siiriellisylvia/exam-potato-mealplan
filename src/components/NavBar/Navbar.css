@@ -9,9 +9,9 @@ nav {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding-left:1rem;
-  padding-right:1rem;
-  padding-top:0.5rem;
+  padding-top: 0.5rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 /* Style the links inside the navigation bar */
 nav a {
@@ -19,7 +19,7 @@ nav a {
   color: var(--dark-text);
   background-color: var(--light-teal);
   text-align: center;
-  padding: 0 1rem 1rem 1rem;
+  padding: 0rem 0.25rem 1rem 0.25rem;
   text-decoration: none;
   letter-spacing: 0.1em;
   text-transform: uppercase;

@@ -1,4 +1,3 @@
-
 import "./SearchBar.css";
 
 export default function SearchBar({
@@ -6,7 +5,6 @@ export default function SearchBar({
   setSearchValue,
   placeholder,
 }) {
-  
   return (
     <div className="searchBar">
       <i className="material-symbols-rounded searchIcon">search</i>
@@ -15,7 +13,7 @@ export default function SearchBar({
         type="text"
         placeholder={placeholder} // Use the placeholder prop here
         value={searchValue}
-        onChange={(event) => setSearchValue(event.target.value.toLowerCase())}
+        onChange={(event) => setSearchValue(event.target.value)}
       />
     </div>
   );

@@ -37,6 +37,7 @@ export default function AddIngredients () {
   };
 
   const handleIngredientChange = async (ingredientId) => {
+    console.log("Selected Ingredient:", ingredientId);
     setSelectedIngredient(ingredientId);
     const units = await fetchUnitsForIngredient(ingredientId);
     // Set units for the selected ingredient

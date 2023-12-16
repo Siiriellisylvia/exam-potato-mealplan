@@ -172,6 +172,20 @@ export default function Recipes({ recipe, user }) {
   function handleAddRecipeClick() {
     navigate(`/addrecipe`);
   }
+
+  //------------------search filter bar------------------//
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredRecipes = recipes.filter((recipe) => {
+    const titleMatch = recipe.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const ingredientMatch = recipe.ingredients.some((ingredientObj) =>
+      ingredientObj.ingredient.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    return titleMatch || ingredientMatch;
+  });
+
   return (
     <>
       <TopBar />
@@ -179,7 +193,11 @@ export default function Recipes({ recipe, user }) {
         <h1 className="header">Hello Siiri</h1>
         <h2 className="header">Build your first meal plan</h2>
         <section className="search-filter-bar">
-          <SearchBar />
+          <SearchBar
+            searchValue={searchQuery}
+            setSearchValue={setSearchQuery}
+            placeholder="Search recipes..."
+          />
           {/* <MultiFilter /> */}
         </section>
         <section className="recipe-category-tags">
@@ -190,12 +208,14 @@ export default function Recipes({ recipe, user }) {
         </section>
 
         <section className="recipesFeed">
-          {recipes.map((recipe) => (
+          {filteredRecipes.map((recipe) => (
             <RecipeCard
               recipe={recipe}
               key={recipe.id}
               onAddToMealPlan={addRecipeToMealPlan}
               onClick={handleClick}
+              isSelected={selectedRecipes.some((r) => r.id === recipe.id)}
+              onRemoveFromMealPlan={removeRecipeFromMealPlan}
             />
           ))}
         </section>

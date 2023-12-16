@@ -14,6 +14,7 @@ export default function RecipeForm({ saveRecipe, recipe }) {
   const [amount, setAmount] = useState("");
   const [unit, setUnit] = useState("");
   const [ingredient, setIngredient] = useState("");
+  const [selectedTags, setSelectedTags] = useState([]);
   const [savedIngredients, setSavedIngredients] = useState([]); // New state for saved ingredients
   const [savedSteps, setSavedSteps] = useState([]); // New state for saved steps
   const [currentStep, setCurrentStep] = useState(1); // New state for current step
@@ -26,15 +27,18 @@ export default function RecipeForm({ saveRecipe, recipe }) {
       recipe?.image &&
       recipe?.servingSize &&
       recipe?.ingredients &&
-      recipe?.steps
+      recipe?.steps &&
+      recipe?.tags
     ) {
       // if recipe, set the states with values from the recipe object
       // The recipe object is a prop, passed from Recipes
       setTitle(recipe.title);
       setImage(recipe.image);
       setServingSize(recipe.servingSize);
+      setSelectedTags(recipe.tags || []);
       setSavedIngredients(recipe.ingredients);
       setSavedSteps(recipe.steps);
+      setSelectedTags(recipe.tags);
     }
   }, [recipe]); // useEffect is called every time recipe changes.
 
@@ -85,19 +89,15 @@ export default function RecipeForm({ saveRecipe, recipe }) {
     setIngredient("");
   };
 
-  const handleDeleteIngredient = (id) => {
-    setSavedIngredients((savedIngredients) => {
-      console.log("Deleting Ingredient with ID:", id);
+  const handleDeleteIngredient = (index) => {
+    setSavedIngredients((currentIngredients) => {
+      console.log("Deleting Ingredient with Index:", index);
       console.log("SavedIngredients Before Deletion:", savedIngredients);
 
-      const updatedIngredients = savedIngredients.filter(
-        (newIngredient) => newIngredient.id !== id
-      );
-
-      console.log("UpdatedIngredients After Deletion:", updatedIngredients);
+      console.log("UpdatedIngredients After Deletion:", currentIngredients);
       console.log("SavedIngredients After Deletion:", savedIngredients);
 
-      return updatedIngredients;
+      return currentIngredients.filter((_, idx) => idx !== index);
     });
   };
 
@@ -164,20 +164,40 @@ export default function RecipeForm({ saveRecipe, recipe }) {
     return downloadURL;
   }
 
-  function getChosenTags() {
-    const chosenTags = [];
-    // Find all label elements with the "tagLabel" class and the "selected" class.
-    const selectedTagElements = document.querySelectorAll(
-      ".categoryTag.categoryTagSelected"
+//----------------Tags Choice-----------------//
+
+const cookingTimeTags = ["Fast", "Normal", "Slow"];
+const proteinTags = ["Vegan", "Vegetarian", "Chicken", "Beef", "Pork"];
+
+  const toggleTagSelection = (tag) => {
+    console.log("Tag clicked:", tag);
+    setSelectedTags((currentTags) =>
+      currentTags.includes(tag)
+      ? currentTags.filter((t) => t !== tag)
+      : [...currentTags, tag]
     );
+  };
 
-    // Extract the values of the selected labels and add them to the chosenTags array.
-    selectedTagElements.forEach((tagElement) => {
-      chosenTags.push(tagElement.textContent);
-    });
+  //check if a tag is selected
+  const isTagSelected = (tag) => selectedTags.includes(tag);
 
-    return chosenTags;
+  //updated tags to return the selected tags
+  function getChosenTags() {
+    return selectedTags;
   }
+
+  // function getChosenTags() {
+  //   const chosenTags = [];
+  //   // Find all label elements with the "tagLabel" class and the "selected" class.
+  //   const selectedTagElements = document.querySelectorAll(
+  //     ".categoryTag.categoryTagSelected"
+  //   );
+
+  //   // Extract the values of the selected labels and add them to the chosenTags array.
+  //   selectedTagElements.forEach((tagElement) => {
+  //     chosenTags.push(tagElement.textContent);
+  //   });
+
 
   return (
     <form onSubmit={handleSubmit} className="addRecipe">
@@ -213,21 +233,21 @@ export default function RecipeForm({ saveRecipe, recipe }) {
       <label>
         Ingredients
         <ul style={{ display: savedIngredients.length > 0 ? "block" : "none" }}>
-          {savedIngredients.map((newIngredient) => (
-            <li key={newIngredient.id} className="ingredient-list">
+          {savedIngredients.map((ingredient, index) => (
+            <li key={index} className="ingredient-list">
               <section>
                 <section className="amountAndUnit">
-                  {newIngredient.amount}
+                  {ingredient.amount}
                   <span style={{ marginLeft: "5px" }}></span>
-                  {newIngredient.unit}
+                  {ingredient.unit}
                 </section>
-                {newIngredient.ingredient}
+                {ingredient.ingredient}
               </section>
               <div
                 className="button-primary material-symbols-rounded"
                 type="button"
                 onClick={() => {
-                  handleDeleteIngredient(newIngredient.id);
+                  handleDeleteIngredient(index);
                 }}
               >
                 Delete
@@ -307,19 +327,26 @@ export default function RecipeForm({ saveRecipe, recipe }) {
       <>
         <li className="chooseTagRow">
           Cooking time:
-          <CategoryTag tag="Fast" />
-          <CategoryTag tag="Normal" />
-          <CategoryTag tag="Slow" />
+          {cookingTimeTags.map((tag) => (
+            <CategoryTag
+              key={tag}
+              tag={tag}
+              selected={isTagSelected(tag)}
+              onClick={() => toggleTagSelection(tag)}
+            />
+          ))}
         </li>
 
         <li className="chooseTagRow">
           Type of protein:
-          <CategoryTag tag="Vegan" />
-          <CategoryTag tag="Vegetarian" />
-          <CategoryTag tag="Chicken" />
-          <CategoryTag tag="Beef" />
-          <CategoryTag tag="Pork" />
-          <CategoryTag tag="Chicken" />
+          {proteinTags.map((tag) => (
+            <CategoryTag
+              key={tag}
+              tag={tag}
+              selected={isTagSelected(tag)}
+              onClick={() => toggleTagSelection(tag)}
+            />
+          ))}
         </li>
       </>
       <p className="text-error">{errorMessage}</p>
