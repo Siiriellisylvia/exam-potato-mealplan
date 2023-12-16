@@ -33,5 +33,10 @@
   padding-left: 3rem;
   width: 100%;
   margin:0;
+  color:var(--dark-text);
 }
 
+.searchBarInput::placeholder {
+  color:var(--dark-text);
+  font-family: var(--body-font);
+}

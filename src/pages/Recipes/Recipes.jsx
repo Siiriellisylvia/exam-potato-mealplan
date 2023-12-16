@@ -14,12 +14,15 @@ import {
 } from "firebase/firestore";
 import { mealplansRef, recipesRef, usersRef } from "../../firebase-config";
 import RecipeCard from "../../components/RecipeCard/RecipeCard";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import CategoryTag from "../../components/CategoryTag/CategoryTag";
 
 export default function Recipes({ recipe, user }) {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     if (user) {
@@ -31,6 +34,8 @@ export default function Recipes({ recipe, user }) {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
+          setUserName(docSnap.data().name); // Set the user's name
+
           console.log(
             "Fetched selected recipes:",
             docSnap.data().selectedRecipes
@@ -189,9 +194,12 @@ export default function Recipes({ recipe, user }) {
   return (
     <>
       <TopBar />
-      <section className="page">
-        <h1 className="header">Hello Siiri</h1>
-        <h2 className="header">Build your first meal plan</h2>
+      <section className="page recipes-page">
+        <h1>Hi {userName}!</h1>
+        <h2>What's for dinner?</h2>
+        <p className="header">
+          Start your first meal plan by selecting recipes
+        </p>
         <section className="search-filter-bar">
           <SearchBar
             searchValue={searchQuery}

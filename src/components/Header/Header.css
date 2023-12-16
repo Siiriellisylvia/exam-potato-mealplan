@@ -1,0 +1,29 @@
+.header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.header-container > h1 {
+  flex-grow: 1; /* Allows h1 to take up the available space */
+  margin-right: auto; /* Keeps space from the start */
+  margin-left: 1rem; /* Adjust to ensure it doesn't overlap the arrow */
+  white-space: normal; /* Allows text wrapping */
+  overflow: hidden; /* Hides overflowed text */
+}
+
+.header-container {
+  display: flex;
+  align-items: flex-start; /* Aligns items vertically */
+  justify-content: center; /* Centers items horizontally */
+  text-align: center; /* Ensures text in the h1 is centered */
+  gap: 0.5rem; /* Space between items */
+}
+
+.header-container > .material-symbols-rounded {
+  font-variation-settings: "FILL" 1, "wght" 900, "GRAD" 0, "opsz" 30;
+  font-size: 1.5rem;
+  color: var(--dark-text);
+  position: absolute;
+  left: 0;
+  margin: 0.5rem;
+}

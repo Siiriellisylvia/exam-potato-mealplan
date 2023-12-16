@@ -24,7 +24,6 @@ export default function EditRecipe() {
   const [selectedTags, setSelectedTags] = useState([]); // New state for selected tags
   const [savedIngredients, setSavedIngredients] = useState([]); // New state for saved ingredients
   const [savedSteps, setSavedSteps] = useState([]); // New state for saved steps
-  const [chosenTags, setChosenTags] = useState([]); // New state for chosen tags
   const [currentStep, setCurrentStep] = useState(1); // New state for current step
   const [description, setDescription] = useState(""); // New state for description
   const [errorMessage, setErrorMessage] = useState("");
@@ -394,7 +393,7 @@ export default function EditRecipe() {
         <button className="button-primary" type="submit">
           Update recipe
         </button>
-        <button className="button-primary button-outline" type="button" onClick={handleCancel}>
+        <button className="button-primary button-outline-teal" type="button" onClick={handleCancel}>
           Cancel
         </button>
       </form>

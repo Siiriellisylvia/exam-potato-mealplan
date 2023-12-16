@@ -5,14 +5,15 @@ import { recipesRef } from "../../firebase-config";
 import TopBar from "../../components/TopBar/TopBar";
 import "./Recipe.css";
 import RecipeTag from "../../components/CategoryTag/RecipeTag";
-import Header from "../../components/Header/Header";
+import RecipeHeader from "../../components/Header/RecipeHeader";
+import DeleteConfirmationModal from "../../components/DeleteConfirmationModal/DeleteConfirmationModal";
 
 export default function Recipe() {
   const { recipeId } = useParams();
   const [recipe, setRecipe] = useState({
     title: "",
     image: "",
-    ingredients: [{ ingredient: "", amount: "", unit: ""}],
+    ingredients: [{ ingredient: "", amount: "", unit: "" }],
     servingSize: "",
     steps: [{ description: "" }],
     tags: [""],
@@ -68,39 +69,81 @@ export default function Recipe() {
     navigate(`/editrecipe/${recipeId}`);
   };
 
-const handleDelete = async () => {
-  try {
-    const recipeDocRef = doc(recipesRef, recipeId);
-    await deleteDoc(recipeDocRef);
-    console.log("Recipe deleted successfully");
-    navigate("/recipes");
-  } catch (error) {
-    console.error("Error deleting recipe:", error);
-  }
-};
+  const handleDelete = async () => {
+    try {
+      const recipeDocRef = doc(recipesRef, recipeId);
+      await deleteDoc(recipeDocRef);
+      console.log("Recipe deleted successfully");
+      navigate("/recipes");
+    } catch (error) {
+      console.error("Error deleting recipe:", error);
+    }
+  };
+
+  //-----------------delete confirmation modal-----------------//
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // function to show modal
+  const showDeleteModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // function to close modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // function to confirm deletion
+  const confirmDeletion = async () => {
+    closeModal();
+    // existing delete logic
+    try {
+      const recipeDocRef = doc(recipesRef, recipeId);
+      await deleteDoc(recipeDocRef);
+      console.log("Recipe deleted successfully");
+      navigate("/recipes");
+    } catch (error) {
+      console.error("Error deleting recipe:", error);
+    }
+  };
 
   return (
     <div className="page recipePage">
       <TopBar />
-      <Header title={recipe.title} />
+      <RecipeHeader title={recipe.title} />
+      <DeleteConfirmationModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onConfirm={confirmDeletion}
+      />
       <div className="recipe-image-container">
         <img src={recipe.image} alt={recipe.title} className="recipe-image" />
-        <button onClick={toggleDropdown} className="material-symbols-rounded recipe-kebab-icon">
+        <button
+          onClick={toggleDropdown}
+          className="material-symbols-rounded recipe-kebab-icon"
+        >
           more_horiz
         </button>
         {showDropdown && (
           <div className="dropdown-menu">
-            <button onClick={handleEdit}>Edit</button>
-            <button onClick={handleDelete}>Delete</button>
+            <button className="button-primary" onClick={handleEdit}>
+              Edit
+            </button>
+            <button
+              className="button-primary button-outline-teal"
+              onClick={showDeleteModal}
+            >
+              Delete
+            </button>
           </div>
         )}
       </div>
+
       {recipe.tags.map((tag) => (
         <RecipeTag tag={tag} key={tag} />
       ))}
 
       <section className="mealplan-card-info-icons">
-
         <button className="button-primary button-square material-symbols-rounded">
           list_alt_add
         </button>

@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import "./Header.css";
 
-export default function Header({title}) {
+export default function RecipeHeader({title}) {
   const navigate = useNavigate();
 
   const goBack = () => {
-    navigate(-1); // Navigates to the previous page
+    navigate("/recipes");
   };
 
   return (
