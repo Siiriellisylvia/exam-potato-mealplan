@@ -111,69 +111,61 @@ export default function Recipes({ recipe, user}) {
     navigate(`/recipes/${recipe.id}`);
   }
 
-  const createMealPlan = async (recipesToSave) => {
+const createMealPlan = async (recipesToSave) => {
+  if (user && recipesToSave.length > 0) {
+    try {
+      const userMealPlanDocRef = doc(mealplansRef, user.uid);
+      const userMealPlanDoc = await getDoc(userMealPlanDocRef);
 
-    if (user && recipesToSave.length > 0) {
-      
-      try {
-        const userMealPlanDocRef = doc(mealplansRef, user.uid);
-        const userMealPlanDoc = await getDoc(userMealPlanDocRef);
-        if (
-          userMealPlanDoc.exists() &&
-          Object.keys(userMealPlanDoc.data().mealPlans).length > 0
-        ) {
-          // User already has meal plans, prevent creation of a new one
-          alert(
-            "You already have a meal plan. Please update it instead of creating a new one."
-          );
-          return; // Exit the function
-        }
-        //Generate a unique ID for the meal plan
-        const mealPlanId = `mealPlan${Date.now()}`;
+      // Generate a unique ID for the meal plan
+      const mealPlanId = `mealPlan${Date.now()}`;
+      // const newMealPlan = {
+      //   [mealPlanId]: {
+      //     recipes: recipesToSave,
+      //   },
+      // };
 
-        //structure the new mealplan data
-        const newMealPlan = {
-          [mealPlanId]: {
-            recipes: recipesToSave,
+      if (
+        !userMealPlanDoc.exists() ||
+        (userMealPlanDoc.exists() &&
+          Object.keys(userMealPlanDoc.data().mealPlans || {}).length === 0)
+      ) {
+        // If the user does not have a meal plan document, create a new one
+        console.log("Creating new meal plan document for user:", user.uid);
+        await setDoc(userMealPlanDocRef, {
+          mealPlans: {
+            [mealPlanId]: {
+              recipes: recipesToSave,
+            },
           },
-        };
-
-        // First, update the meal plan
-        await updateDoc(userMealPlanDocRef, {
-          [`mealPlans.${mealPlanId}`]: newMealPlan[mealPlanId],
         });
-          console.log(
-            "Updating meal plan with new meal plan data:",
-            newMealPlan
-          );
-
-        // // Update the currentMealPlanId state
-        // setCurrentMealPlanId(mealPlanId);
-        //   console.log("Current Meal Plan ID set to:", mealPlanId);
-
-
-        // Then, delete the selectedRecipes array
-        const userDocRef = doc(usersRef, user.uid);
-        await updateDoc(userDocRef, {
-          selectedRecipes: deleteField(),
-        });
-
-        console.log(
-          "Meal plan created and selectedRecipes deleted successfully"
+      } else {
+        // If the user already has meal plans, prevent creation of a new one
+        alert(
+          "You already have a meal plan. Please update it instead of creating a new one."
         );
-        navigate(`/mealplan/${mealPlanId}`);
-        console.log("Navigating to meal plan page with ID:", mealPlanId);
-
-      } catch (error) {
-        console.log(
-          "Error creating mealplan or deleting selectedRecipes",
-          error
-        );
+        return; // Exit the function
       }
-    } else {
-      console.log("No user or no recipes selected");
+
+      // Then, delete the selectedRecipes array
+      const userDocRef = doc(usersRef, user.uid);
+      await updateDoc(userDocRef, {
+        selectedRecipes: deleteField(),
+      });
+
+      console.log("Meal plan created and selectedRecipes deleted successfully");
+      navigate(`/mealplan/${mealPlanId}`);
+      console.log("Navigating to meal plan page with ID:", mealPlanId);
+    } catch (error) {
+      console.error(
+        "Error creating mealplan or deleting selectedRecipes",
+        error
+      );
     }
-  };
+  } else {
+    console.log("No user or no recipes selected");
+  }
+};
 
   //-------RANDOM RECIPES FUNCTION----------//
 
