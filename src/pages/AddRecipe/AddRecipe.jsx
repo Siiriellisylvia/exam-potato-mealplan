@@ -4,7 +4,7 @@ import { addDoc} from "firebase/firestore";
 import { recipesRef } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
-// import Todo from "../Playground/Todo";
+import Header from "../../components/Header/Header";
 import RecipeForm from "../../components/RecipeForm/RecipeForm";
 export default function AddRecipe() {
 
@@ -19,14 +19,14 @@ export default function AddRecipe() {
     }
 
     return (
-        <>
+      <>
         <TopBar />
         <section className="page addrecipe">
-            <h1>Add Recipe</h1>
-            <RecipeForm saveRecipe={createRecipe} />
-            {/* <Todo saveRecipe={createRecipe}/> */}
+          <Header title="Add Recipe" />
+          <RecipeForm saveRecipe={createRecipe} />
+          {/* <Todo saveRecipe={createRecipe}/> */}
         </section>
         <NavBar />
-        </>
+      </>
     );
 }

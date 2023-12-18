@@ -5,9 +5,11 @@ import "./TopBar.css";
 
 export default function TopBar() {
   return (
-    <Link className="logoLink" to="/home">
+    <section className="top-bar">
+    <Link className="logo-link" to="/home">
       <img src={Potato} alt="potato-logo"></img>
       <p>POTATO</p>
     </Link>
+    </section>
   );
 }

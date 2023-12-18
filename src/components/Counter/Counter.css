@@ -12,6 +12,7 @@
 .servingSize > span {
   font-size: var(--body-text-size);
   font-weight: var(--font-weight-bold);
+  color:var(--dark-text);
 }
 
 .servingSize > .material-symbols-rounded {

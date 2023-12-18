@@ -34,24 +34,35 @@ export default function ShoppingList() {
 
   return (
     <>
-      <TopBar />
-      <section className="page">
+      <section className="page" aria-label="Shopping List Page">
+        <TopBar />
+
         <h1 className="header">Shopping list</h1>
-        <div className="tabs">
+        <div className="tabs" role="tablist" aria-label="Shopping List Tabs">
           <button
             onClick={() => setActiveTab("ingredients")}
             className={activeTab === "ingredients" ? "active" : ""}
+            role="tab"
+            aria-selected={activeTab === "ingredients"}
+            aria-controls="ingredients-tab"
           >
             Ingredients
           </button>
           <button
             onClick={() => setActiveTab("recipes")}
             className={activeTab === "recipes" ? "active" : ""}
+            role="tab"
+            aria-selected={activeTab === "recipes"}
+            aria-controls="recipes-tab"
           >
             Recipes
           </button>
         </div>
-        <section className="shopping-list-container">
+        
+        <section
+          className="shopping-list-container"
+          aria-label="Shopping List Content"
+        >
           {activeTab === "ingredients" &&
             categories.map((category) => (
               <Category
@@ -63,7 +74,11 @@ export default function ShoppingList() {
                 checkedState={checkedState}
               />
             ))}
-          {activeTab === "recipes" && <div>The recipes that user has added to shopping list are shown here</div>}
+          {activeTab === "recipes" && (
+            <div>
+              The recipes that user has added to shopping list are shown here
+            </div>
+          )}
         </section>
       </section>
       <NavBar />

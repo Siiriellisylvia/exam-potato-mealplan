@@ -52,6 +52,9 @@
   font-size: var(--body-text-size);
 }
 
+.recipe-ingredients {
+  padding-top:1rem;
+}
 .recipe-ingredient-list {
   display: flex;
   flex-direction: row;
@@ -66,7 +69,8 @@
   align-items: center;
 }
 
-.recipe-amountAndUnit {
+.recipe-amount-unit {
   width: 4rem;
   font-weight: var(--font-weight-bold);
+  color:var(--dark-text);
 }

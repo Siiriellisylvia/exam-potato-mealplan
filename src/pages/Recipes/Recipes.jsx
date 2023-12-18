@@ -6,7 +6,6 @@ import {
   doc,
   getDoc,
   getDocs,
-  limit,
   onSnapshot,
   query,
   setDoc,
@@ -19,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import CategoryTag from "../../components/CategoryTag/CategoryTag";
 
-export default function Recipes({ recipe, user }) {
+export default function Recipes({ recipe, user}) {
   const navigate = useNavigate();
 
   const [userName, setUserName] = useState("");
@@ -113,27 +112,48 @@ export default function Recipes({ recipe, user }) {
   }
 
   const createMealPlan = async (recipesToSave) => {
+
     if (user && recipesToSave.length > 0) {
-      //Generate a unique ID for the meal plan
-      const mealPlanId = `mealPlan${Date.now()}`;
-
-      //structure the new mealplan data
-      const newMealPlan = {
-        [mealPlanId]: {
-          recipes: recipesToSave,
-        },
-      };
-
+      
       try {
         const userMealPlanDocRef = doc(mealplansRef, user.uid);
-        const userDocRef = doc(usersRef, user.uid);
+        const userMealPlanDoc = await getDoc(userMealPlanDocRef);
+        if (
+          userMealPlanDoc.exists() &&
+          Object.keys(userMealPlanDoc.data().mealPlans).length > 0
+        ) {
+          // User already has meal plans, prevent creation of a new one
+          alert(
+            "You already have a meal plan. Please update it instead of creating a new one."
+          );
+          return; // Exit the function
+        }
+        //Generate a unique ID for the meal plan
+        const mealPlanId = `mealPlan${Date.now()}`;
+
+        //structure the new mealplan data
+        const newMealPlan = {
+          [mealPlanId]: {
+            recipes: recipesToSave,
+          },
+        };
 
         // First, update the meal plan
         await updateDoc(userMealPlanDocRef, {
           [`mealPlans.${mealPlanId}`]: newMealPlan[mealPlanId],
         });
+          console.log(
+            "Updating meal plan with new meal plan data:",
+            newMealPlan
+          );
+
+        // // Update the currentMealPlanId state
+        // setCurrentMealPlanId(mealPlanId);
+        //   console.log("Current Meal Plan ID set to:", mealPlanId);
+
 
         // Then, delete the selectedRecipes array
+        const userDocRef = doc(usersRef, user.uid);
         await updateDoc(userDocRef, {
           selectedRecipes: deleteField(),
         });
@@ -142,6 +162,8 @@ export default function Recipes({ recipe, user }) {
           "Meal plan created and selectedRecipes deleted successfully"
         );
         navigate(`/mealplan/${mealPlanId}`);
+        console.log("Navigating to meal plan page with ID:", mealPlanId);
+
       } catch (error) {
         console.log(
           "Error creating mealplan or deleting selectedRecipes",
@@ -155,35 +177,35 @@ export default function Recipes({ recipe, user }) {
 
   //-------RANDOM RECIPES FUNCTION----------//
 
-const fetchRandomRecipes = async () => {
-  try {
-    // Fetch all document IDs from the recipes collection
-    const recipesQuery = query(recipesRef);
-    const querySnapshot = await getDocs(recipesQuery);
-    const allRecipeIds = querySnapshot.docs.map((doc) => doc.id);
+  const fetchRandomRecipes = async () => {
+    try {
+      // Fetch all document IDs from the recipes collection
+      const recipesQuery = query(recipesRef);
+      const querySnapshot = await getDocs(recipesQuery);
+      const allRecipeIds = querySnapshot.docs.map((doc) => doc.id);
 
-    // Randomly select a few IDs (e.g., 4)
-    const selectedIds = allRecipeIds
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 4);
+      // Randomly select a few IDs (e.g., 4)
+      const selectedIds = allRecipeIds
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 4);
 
-    // Fetch complete data for these selected IDs
-    const selectedRecipesPromises = selectedIds.map((id) => {
-      const recipeDocRef = doc(recipesRef, id);
-      return getDoc(recipeDocRef);
-    });
-    const selectedRecipesDocs = await Promise.all(selectedRecipesPromises);
-    const selectedRecipes = selectedRecipesDocs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+      // Fetch complete data for these selected IDs
+      const selectedRecipesPromises = selectedIds.map((id) => {
+        const recipeDocRef = doc(recipesRef, id);
+        return getDoc(recipeDocRef);
+      });
+      const selectedRecipesDocs = await Promise.all(selectedRecipesPromises);
+      const selectedRecipes = selectedRecipesDocs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
 
-    return selectedRecipes;
-  } catch (error) {
-    console.error("Error fetching random recipes:", error);
-    return [];
-  }
-};
+      return selectedRecipes;
+    } catch (error) {
+      console.error("Error fetching random recipes:", error);
+      return [];
+    }
+  };
 
   //-------ADD RECIPE BUTTON----------//
 
@@ -206,27 +228,31 @@ const fetchRandomRecipes = async () => {
 
   return (
     <>
-      <TopBar />
-      <section className="page recipes-page">
+      <section className="page recipes-page" aria-label="Recipes Page">
+        <TopBar />
         <h1 className="header">Hi {userName}!</h1>
         <h2>What's for dinner?</h2>
         <p className="header">Start your meal plan by selecting recipes</p>
-        <section className="search-filter-bar">
+        <section className="search-filter-bar" aria-label="Search Recipes">
           <SearchBar
             searchValue={searchQuery}
             setSearchValue={setSearchQuery}
-            placeholder="Search recipes..."
+            placeholder="Search recipes.."
+            aria-label="Search Recipes"
           />
           {/* <MultiFilter /> */}
         </section>
-        <section className="recipe-category-tags">
+        <section
+          className="recipe-category-tags"
+          aria-label="Recipe Categories"
+        >
           <CategoryTag tag="Vegan" />
           <CategoryTag tag="Fast" />
           <CategoryTag tag="Pumpkin" />
           <CategoryTag tag="Asian" />
         </section>
 
-        <section className="recipesFeed">
+        <section className="recipesFeed" aria-label="Recipe feed">
           {filteredRecipes.map((recipe) => (
             <RecipeCard
               recipe={recipe}
@@ -235,13 +261,14 @@ const fetchRandomRecipes = async () => {
               onClick={handleClick}
               isSelected={selectedRecipes.some((r) => r.id === recipe.id)}
               onRemoveFromMealPlan={removeRecipeFromMealPlan}
+              aria-label={`Recipe: ${recipe.title}`}
             />
           ))}
         </section>
       </section>
 
       {selectedRecipes.length > 0 ? (
-        <div className="buttonContainer">
+        <div className="buttonContainer" aria-label="Selected Recipes">
           <section className="selectedRecipes">
             {selectedRecipes.map((recipe) => (
               <div key={recipe.id} className="selectedRecipeContainer">
@@ -249,10 +276,12 @@ const fetchRandomRecipes = async () => {
                   src={recipe.image}
                   alt={recipe.title}
                   className="selectedRecipeImage"
+                  aria-label={`Image of ${recipe.title}`}
                 />
                 <button
                   className="deleteRecipeButton material-symbols-rounded"
                   onClick={() => removeRecipeFromMealPlan(recipe.id)}
+                  aria-label={`Remove ${recipe.title} from meal plan`}
                 >
                   close
                 </button>
@@ -262,24 +291,30 @@ const fetchRandomRecipes = async () => {
           <button
             className="button-primary mealplan-button"
             onClick={() => createMealPlan(selectedRecipes)}
+            aria-label="Create Meal Plan"
           >
             Create mealplan
           </button>
         </div>
       ) : (
-        <div className="buttonContainer decide-for-me">
+        <div
+          className="buttonContainer decide-for-me"
+          aria-label="create a random mealplan button"
+        >
           <button
             className="button-primary mealplan-button"
             onClick={async () => {
               const randomRecipes = await fetchRandomRecipes();
               createMealPlan(randomRecipes);
             }}
+            aria-label="Decide Meal Plan for Me"
           >
             Decide for me
           </button>
           <button
             className="button-primary mealplan-button"
             onClick={handleAddRecipeClick}
+            aria-label="Add New Recipe"
           >
             Add recipe
           </button>

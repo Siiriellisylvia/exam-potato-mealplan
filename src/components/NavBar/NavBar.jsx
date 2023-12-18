@@ -1,28 +1,25 @@
 import { NavLink, useLocation } from "react-router-dom";
 import "./NavBar.css";
 
-export default function NavBar() {
+export default function NavBar({currentMealPlanId}) {
+  console.log("currentMealPlanId", currentMealPlanId);
   const location = useLocation();
 
-  const isMealplanActive = location.pathname === "/";
+  const isMealPlanActive =
+    location.pathname === "/" || location.pathname.startsWith("/mealplan");
 
   return (
     <nav>
-      {/* <NavLink
-        to="/home"
-        className={`nav-link ${isHomeActive ? "active" : ""}`}
-      >
-        <i className="material-symbols-rounded">home</i>
-        <a>Home</a>
-      </NavLink> */}
       <section className="nav-links">
-        <NavLink to="/mealplan" className={`nav-link ${isMealplanActive ? "active" : ""}`}
+        <NavLink
+          to={currentMealPlanId ? `/mealplan/${currentMealPlanId}` : "/"}
+          className={`nav-link ${isMealPlanActive ? "active" : ""}`}
         >
           <i className="material-symbols-rounded">stockpot</i>
           <a>Meal plan</a>
         </NavLink>
 
-        <NavLink to="/groceries" className="nav-link">
+        <NavLink to="/shoppinglist" className="nav-link">
           <i className="material-symbols-rounded">list_alt</i>
           <a>Shopping list</a>
         </NavLink>

@@ -49,11 +49,14 @@ export default function Profile(handleClick) {
 
   return (
     <>
-      <TopBar />
       <section className="page">
+        <TopBar />
         <h1 className="header">Profile</h1>
         <section className="profile-container">
-          <p className="header">Here you can see your personal cookbook, favourites and saved mealplans</p>
+          <p className="header">
+            Here you can see your personal cookbook, favourites and saved
+            mealplans
+          </p>
           <h3 className="header">All your recipes</h3>
           <Splide options={sliderOptions}>
             {recipes.map((recipe) => (
@@ -75,9 +78,12 @@ export default function Profile(handleClick) {
         </section>
       </section>
       <div className="profile-button-container">
-      <button className="button-primary profile-logout" onClick={handleSignOut}>
-        Logout
-      </button>
+        <button
+          className="button-primary profile-logout"
+          onClick={handleSignOut}
+        >
+          Logout
+        </button>
       </div>
       <NavBar />
     </>

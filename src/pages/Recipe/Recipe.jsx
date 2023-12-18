@@ -7,6 +7,7 @@ import "./Recipe.css";
 import RecipeTag from "../../components/CategoryTag/RecipeTag";
 import RecipeHeader from "../../components/Header/RecipeHeader";
 import DeleteConfirmationModal from "../../components/DeleteConfirmationModal/DeleteConfirmationModal";
+import Counter from "../../components/Counter/Counter";
 
 export default function Recipe() {
   const { recipeId } = useParams();
@@ -109,29 +110,32 @@ export default function Recipe() {
 
   return (
     <div className="page recipePage">
-      <TopBar />
-      <RecipeHeader title={recipe.title} />
+      <TopBar aria-label="potato logo and name"/>
+      <RecipeHeader title={recipe.title} aria-label="page header"/>
       <DeleteConfirmationModal
         isOpen={isModalOpen}
         onClose={closeModal}
         onConfirm={confirmDeletion}
+        aria-label="delete recipe confirmation modal"
       />
       <div className="recipe-image-container">
         <img src={recipe.image} alt={recipe.title} className="recipe-image" />
         <button
           onClick={toggleDropdown}
           className="material-symbols-rounded recipe-kebab-icon"
+          aria-label="edit and delete dropdown button"
         >
           more_horiz
         </button>
         {showDropdown && (
           <div className="dropdown-menu">
-            <button className="button-primary" onClick={handleEdit}>
+            <button className="button-primary" onClick={handleEdit} aria-label="edit recipe button">
               Edit
             </button>
             <button
               className="button-primary button-outline-teal"
               onClick={showDeleteModal}
+              aria-label="delete recipe button"
             >
               Delete
             </button>
@@ -140,41 +144,45 @@ export default function Recipe() {
       </div>
 
       {recipe.tags.map((tag) => (
-        <RecipeTag tag={tag} key={tag} />
+        <RecipeTag tag={tag} key={tag} aria-label="recipe category tags" />
       ))}
 
-      <section className="mealplan-card-info-icons">
+      {/* <section className="mealplan-card-info-icons">
         <button className="button-primary button-square material-symbols-rounded">
           list_alt_add
         </button>
         <button className="button-primary button-square material-symbols-rounded">
           add
         </button>
-      </section>
-      <h2>Ingredients:</h2>
-      <ul className="recipe-ingredients-list">
-        {recipe.ingredients.map((ingredient, index) => (
-          <li key={index} className="recipe-ingredient-list">
-            <section>
-              <section className="recipe-amountAndUnit">
-                {ingredient.amount} {ingredient.unit}
-                <span style={{ marginLeft: "5px" }}></span>
+      </section> */}
+      <section className="recipe-ingredients" aria-label="recipe ingredients list">
+        <h2>Ingredients:</h2>
+        <ul className="recipe-ingredients-list">
+          {recipe.ingredients.map((ingredient, index) => (
+            <li key={index} className="recipe-ingredient-list">
+              <section>
+                <section className="recipe-amount-unit">
+                  {ingredient.amount} {ingredient.unit}
+                  <span style={{ marginLeft: "5px" }}></span>
+                </section>
+                {ingredient.ingredient}
               </section>
-              {ingredient.ingredient}
-            </section>
-          </li>
-        ))}
-      </ul>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-      <h2>Instructions:</h2>
-      <ul className="recipe-steps-container">
-        {recipe.steps.map((step, index) => (
-          <li key={index} className="recipe-step-description-container">
-            <div className="button-rounded">{index + 1}</div>
-            {step.description}
-          </li>
-        ))}
-      </ul>
+      <section className="recipe-instructions" aria-label="recipe instructions steps">
+        <h2>Instructions:</h2>
+        <ul className="recipe-steps-container">
+          {recipe.steps.map((step, index) => (
+            <li key={index} className="recipe-step-description-container">
+              <div className="button-rounded">{index + 1}</div>
+              {step.description}
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 }

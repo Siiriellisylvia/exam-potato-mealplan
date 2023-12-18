@@ -234,79 +234,97 @@ export default function RecipeForm({ saveRecipe, recipe }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="addRecipe">
-      <label>
-        <input
-          type="file"
-          className="file-input"
-          accept="image/*"
-          onChange={handleImageChange}
-        />
-        <img
-          className="image-preview"
-          src={image}
-          alt="Choose"
-          onError={(event) => (event.target.src = placeholderImage)}
-        />
-      </label>
-      <label>
-        Recipe name
-        <input
-          type="text"
-          value={title}
-          placeholder="Type a title"
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </label>
+    <div className="form-group">
+      <form
+        onSubmit={handleSubmit}
+        className="addRecipe"
+        aria-label="recipe form"
+      >
+        <div className="form-group">
+          <label htmlFor="image-input" className="visually-hidden">
+            Upload Image
+          </label>
+          <input
+            type="file"
+            className="file-input"
+            accept="image/*"
+            onChange={handleImageChange}
+            aria-label="Recipe Image"
+          />
+          <img
+            className="image-preview"
+            src={image}
+            alt="preview of the recipe image"
+            onError={(event) => (event.target.src = placeholderImage)}
+          />
+        </div>
 
-      <label>
-        Serving size
-        <Counter value={servingSize} onChange={setServingSize} />
-      </label>
+        <div className="form-group">
+          <label htmlFor="recipe-name">Recipe name</label>
+          <input
+            type="text"
+            value={title}
+            placeholder="Type a title"
+            onChange={(e) => setTitle(e.target.value)}
+            aria-label="Recipe Title"
+          />
+        </div>
 
-      <label>
-        Ingredients
-        <ul>
-          {savedIngredients.map((ingredient, index) => (
-            <li key={index} className="ingredient-list-edit">
-              {editingIndex === index ? (
-                // Render input fields for editing
-                <div className="ingredient-fields">
-                  <input
-                    type="number"
-                    value={ingredient.amount}
-                    onChange={(e) =>
-                      updateIngredientAmount(index, e.target.value)
-                    }
-                  />
-                  <input
-                    type="text"
-                    value={ingredient.unit}
-                    onChange={(e) =>
-                      updateIngredientUnit(index, e.target.value)
-                    }
-                  />
-                  <input
-                    type="text"
-                    value={ingredient.ingredient}
-                    onChange={(e) =>
-                      updateIngredientName(index, e.target.value)
-                    }
-                  />
-                  <div className="button-primary button-save" onClick={saveEdit}>
-                    Save
-                  </div>
-                </div>
-              ) : (
-                // Render static view of the ingredient
-                <div key={index} className="ingredient-list">
-                    <section className="ingredient-info">
-                      <section className="amountAndUnit">
-                        {ingredient.amount}
-                        <span style={{ marginLeft: "5px" }}></span>
-                        {ingredient.unit}
-                      </section>
-                      {ingredient.ingredient}
+        <div className="form-group">
+          <label htmlFor="serving-size">Serving size</label>
+          <Counter
+            value={servingSize}
+            onChange={setServingSize}
+            aria-label="Serving Size"
+          />
+        </div>
+        <div className="ingredients-container">
+          <fieldset>
+            <legend>Ingredients</legend>
+            <ul aria-label="Ingredients List">
+              {savedIngredients.map((ingredient, index) => (
+                <li key={index} className="ingredient-list-edit">
+                  {editingIndex === index ? (
+                    // Render input fields for editing
+                    <div className="ingredient-fields">
+                      <input
+                        type="number"
+                        value={ingredient.amount}
+                        onChange={(e) =>
+                          updateIngredientAmount(index, e.target.value)
+                        }
+                      />
+                      <input
+                        type="text"
+                        value={ingredient.unit}
+                        onChange={(e) =>
+                          updateIngredientUnit(index, e.target.value)
+                        }
+                      />
+                      <input
+                        type="text"
+                        value={ingredient.ingredient}
+                        onChange={(e) =>
+                          updateIngredientName(index, e.target.value)
+                        }
+                      />
+                      <div
+                        className="button-primary button-save"
+                        onClick={saveEdit}
+                      >
+                        Save
+                      </div>
+                    </div>
+                  ) : (
+                    // Render static view of the ingredient
+                    <div key={index} className="ingredient-list">
+                      <section className="ingredient-info">
+                        <section className="amountAndUnit">
+                          {ingredient.amount}
+                          <span style={{ marginLeft: "5px" }}></span>
+                          {ingredient.unit}
+                        </section>
+                        {ingredient.ingredient}
                       </section>
                       <section className="ingredient-buttons">
                         <div
@@ -322,109 +340,124 @@ export default function RecipeForm({ saveRecipe, recipe }) {
                           Delete
                         </div>
                       </section>
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
-        <div className="ingredient-fields">
-          <input
-            type="number"
-            placeholder="Amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Unit"
-            value={unit}
-            onChange={(e) => setUnit(e.target.value.toLowerCase())}
-          />
-          <input
-            type="text"
-            placeholder="Ingredient"
-            value={ingredient}
-            onChange={(e) => setIngredient(e.target.value.toLowerCase())}
-          />
-        </div>
-        <button
-          className="button-primary button-add"
-          type="button"
-          onClick={handleAddIngredient}
-        >
-          <i className="material-symbols-rounded">add</i>
-          Add new ingredient
-        </button>
-      </label>
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </fieldset>
 
-      <label>
-        Instructions
-        <ul style={{ display: savedSteps.length > 0 ? "block" : "none" }}>
-          {savedSteps.map((savedStep, index) => (
-            <li key={index} className="steps-list">
-              <section>
-                <div className="button-rounded">{index + 1}</div>
-                <div className="step-description">{savedStep.description}</div>
-              </section>
-
-              <div
-                className="button-primary material-symbols-rounded"
-                type="button"
-                onClick={() => handleDeleteStep(index)}
-              >
-                Delete
-              </div>
-            </li>
-          ))}
-        </ul>
-        <div className="step-fields">
-          <input
-            type="text"
-            placeholder="Write a step description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
-        <button
-          className="button-primary button-add"
-          type="button"
-          onClick={handleAddStep}
-        >
-          <i className="material-symbols-rounded">add</i>
-          Add new step
-        </button>
-      </label>
-
-      {/*--------------Tags Choice ---------------*/}
-      <>
-        <li className="chooseTagRow">
-          Cooking time:
-          {cookingTimeTags.map((tag) => (
-            <CategoryTag
-              key={tag}
-              tag={tag}
-              selected={isTagSelected(tag)}
-              onClick={() => toggleTagSelection(tag)}
+          <div className="ingredient-fields">
+            <input
+              type="number"
+              placeholder="Amount"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
             />
-          ))}
-        </li>
-
-        <li className="chooseTagRow">
-          Type of protein:
-          {proteinTags.map((tag) => (
-            <CategoryTag
-              key={tag}
-              tag={tag}
-              selected={isTagSelected(tag)}
-              onClick={() => toggleTagSelection(tag)}
+            <input
+              type="text"
+              placeholder="Unit"
+              value={unit}
+              onChange={(e) => setUnit(e.target.value.toLowerCase())}
             />
-          ))}
-        </li>
-      </>
-      <p className="text-error">{errorMessage}</p>
-      <button className="button-primary" type="submit">
-        Save recipe
-      </button>
-    </form>
+            <input
+              type="text"
+              placeholder="Ingredient"
+              value={ingredient}
+              onChange={(e) => setIngredient(e.target.value.toLowerCase())}
+            />
+          </div>
+          <button
+            className="button-primary button-add"
+            type="button"
+            onClick={handleAddIngredient}
+          >
+            <i className="material-symbols-rounded">add</i>
+            Add new ingredient
+          </button>
+        </div>
+
+        <div className="instructions-container">
+          <fieldset>
+            <legend>Instructions</legend>
+            <ul
+              style={{ display: savedSteps.length > 0 ? "block" : "none" }}
+              aria-label="Instructions List"
+            >
+              {savedSteps.map((savedStep, index) => (
+                <li key={index} className="steps-list">
+                  <section>
+                    <div className="button-rounded">{index + 1}</div>
+                    <div className="step-description">
+                      {savedStep.description}
+                    </div>
+                  </section>
+
+                  <div
+                    className="button-primary material-symbols-rounded"
+                    type="button"
+                    onClick={() => handleDeleteStep(index)}
+                  >
+                    Delete
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </fieldset>
+          <div className="step-fields">
+            <input
+              type="text"
+              placeholder="Write a step description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+          <button
+            className="button-primary button-add"
+            type="button"
+            onClick={handleAddStep}
+          >
+            <i className="material-symbols-rounded">add</i>
+            Add new step
+          </button>
+        </div>
+
+        {/*--------------Tags Choice ---------------*/}
+        <div className="tags-container">
+          <fieldset>
+            <legend>Instructions</legend>
+            <div className="chooseTagRow" aria-label="Cooking Time Tags">
+              Cooking time:
+              {cookingTimeTags.map((tag) => (
+                <CategoryTag
+                  key={tag}
+                  tag={tag}
+                  selected={isTagSelected(tag)}
+                  onClick={() => toggleTagSelection(tag)}
+                />
+              ))}
+            </div>
+
+            <div className="chooseTagRow" aria-label="Type of Protein Tags">
+              Type of protein:
+              {proteinTags.map((tag) => (
+                <CategoryTag
+                  key={tag}
+                  tag={tag}
+                  selected={isTagSelected(tag)}
+                  onClick={() => toggleTagSelection(tag)}
+                />
+              ))}
+            </div>
+          </fieldset>
+        </div>
+        <p className="text-error" aria-live="polite">
+          {errorMessage}
+        </p>
+        <button className="button-primary" type="submit">
+          Add recipe
+        </button>
+      </form>
+    </div>
   );
 }

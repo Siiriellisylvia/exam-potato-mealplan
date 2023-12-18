@@ -4,6 +4,10 @@ form {
   animation: fadeIn 0.5s;
 }
 
+.visually-hidden {
+  display:none;
+}
+
 input {
   width: 100%;
   padding: 1em;
@@ -26,6 +30,20 @@ label {
   font-size: var(--subheading-size);
   color: var(--dark-text);
   font-weight: var(--font-weight-bold);
+}
+
+fieldset {
+  border: none; /* Removes the default border */
+  padding: 0; /* Adjust padding as needed */
+  margin: 0; /* Adjust margin as needed */
+}
+
+legend {
+  font-size: var(--subheading-size);
+  color: var(--dark-text);
+  font-weight: var(--font-weight-bold);
+  margin:0;
+  padding:0;
 }
 
 .addRecipe .image-preview {

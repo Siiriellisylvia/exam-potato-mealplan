@@ -20,18 +20,19 @@
 
 .landing-container > img {
   width: 10rem;
+  height:auto;
 }
 
 .landing-container > h1 {
   color: var(--off-white);
   margin: 0;
-  font-size: 2.5rem;
+  font-size: 2.7rem;
 }
 
 .landing-container > h2 {
   color: var(--off-white);
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
 }
 
 .landing-buttons > .button-primary {
@@ -63,11 +64,12 @@
   background-color: var(--off-white);
 }
 
+
 .signin > h2 {
   color: var(--dark-orange);
   margin: 0;
   text-align: center;
-  font-size: var(--body-text-size);
+  font-size: var(--subheader-text-size);
   font-weight: var(--font-weight-bold);
 }
 
@@ -79,11 +81,19 @@
   text-align: center;
   color: var(--off-white);
   font-family: var(--body-font);
-  font-size: var(--body-font-size);
+  font-size: var(--body-text-size);
   margin-top: 1rem;
 }
 
 .text-center > a {
   color: var(--dark-orange);
   font-weight: var(--font-weight-bold);
+  font-size: var(--body-text-size);
+}
+
+.text-error {
+  color: var(--off-white);
+  font-size: var(--body-text-small-size);
+  margin-top: 0;
+  margin-bottom: 0;
 }

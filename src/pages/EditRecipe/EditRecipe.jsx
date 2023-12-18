@@ -233,171 +233,177 @@ export default function EditRecipe() {
 
   return (
     <>
-          <TopBar />
-    <section className="page">
-      <Header title="Edit Recipe" />
-      <form onSubmit={handleSubmit} className="addRecipe">
-        <label>
-          <input
-            type="file"
-            className="file-input"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
-          <img
-            className="image-preview"
-            src={image}
-            alt="Choose"
-            onError={(event) => (event.target.src = placeholderImage)}
-          />
-        </label>
-        <label>
-          Recipe name
-          <input
-            type="text"
-            value={title}
-            placeholder="Type a title"
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </label>
+      <TopBar />
+      <section className="page">
+        <Header title="Edit Recipe" />
+        <form onSubmit={handleSubmit} className="addRecipe">
+          <label>
+            <input
+              type="file"
+              className="file-input"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+            <img
+              className="image-preview"
+              src={image}
+              alt="Choose"
+              onError={(event) => (event.target.src = placeholderImage)}
+            />
+          </label>
+          <label>
+            Recipe name
+            <input
+              type="text"
+              value={title}
+              placeholder="Type a title"
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </label>
 
-        <label>
-          Serving size
-          <Counter value={servingSize} onChange={setServingSize} />
-        </label>
+          <label>
+            Serving size
+            <Counter value={servingSize} onChange={setServingSize} />
+          </label>
 
-        <label>
-          Ingredients
-          <ul
-            style={{ display: savedIngredients.length > 0 ? "block" : "none" }}
-          >
-            {savedIngredients.map((ingredient, index) => (
-              <li key={index} className="ingredient-list">
-                <section>
-                  <section className="amountAndUnit">
-                    {ingredient.amount}
-                    <span style={{ marginLeft: "5px" }}></span>
-                    {ingredient.unit}
+          <label>
+            Ingredients
+            <ul
+              style={{
+                display: savedIngredients.length > 0 ? "block" : "none",
+              }}
+            >
+              {savedIngredients.map((ingredient, index) => (
+                <li key={index} className="ingredient-list">
+                  <section className="ingredient-info">
+                    <section className="amountAndUnit">
+                      {ingredient.amount}
+                      <span style={{ marginLeft: "5px" }}></span>
+                      {ingredient.unit}
+                    </section>
+                    {ingredient.ingredient}
                   </section>
-                  {ingredient.ingredient}
-                </section>
-                <div
-                  className="button-primary material-symbols-rounded"
-                  type="button"
-                  onClick={() => {
-                    handleDeleteIngredient(index);
-                  }}
-                >
-                  Delete
-                </div>
-              </li>
-            ))}
-          </ul>
-          <div className="ingredient-fields">
-            <input
-              type="number"
-              placeholder="Amount"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Unit"
-              value={unit}
-              onChange={(e) => setUnit(e.target.value.toLowerCase())}
-            />
-            <input
-              type="text"
-              placeholder="Ingredient"
-              value={ingredient}
-              onChange={(e) => setIngredient(e.target.value.toLowerCase())}
-            />
-          </div>
-          <button
-            className="button-primary button-add"
-            type="button"
-            onClick={handleAddIngredient}
-          >
-            <i className="material-symbols-rounded">add</i>
-            Add new ingredient
-          </button>
-        </label>
-
-        <label>
-          Instructions
-          <ul style={{ display: savedSteps.length > 0 ? "block" : "none" }}>
-            {savedSteps.map((savedStep, index) => (
-              <li key={index} className="steps-list">
-                <section>
-                  <div className="button-rounded">{index + 1}</div>
-                  <div className="step-description">
-                    {savedStep.description}
+                  <div
+                    className="button-primary material-symbols-rounded"
+                    type="button"
+                    onClick={() => {
+                      handleDeleteIngredient(index);
+                    }}
+                  >
+                    Delete
                   </div>
-                </section>
+                </li>
+              ))}
+            </ul>
+            <div className="ingredient-fields">
+              <input
+                type="number"
+                placeholder="Amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Unit"
+                value={unit}
+                onChange={(e) => setUnit(e.target.value.toLowerCase())}
+              />
+              <input
+                type="text"
+                placeholder="Ingredient"
+                value={ingredient}
+                onChange={(e) => setIngredient(e.target.value.toLowerCase())}
+              />
+            </div>
+            <button
+              className="button-primary button-add"
+              type="button"
+              onClick={handleAddIngredient}
+            >
+              <i className="material-symbols-rounded">add</i>
+              Add new ingredient
+            </button>
+          </label>
 
-                <div
-                  className="button-primary material-symbols-rounded"
-                  type="button"
-                  onClick={() => handleDeleteStep(index)}
-                >
-                  Delete
-                </div>
-              </li>
-            ))}
-          </ul>
-          <div className="step-fields">
-            <input
-              type="text"
-              placeholder="Write a step description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
-          <button
-            className="button-primary button-add"
-            type="button"
-            onClick={handleAddStep}
-          >
-            <i className="material-symbols-rounded">add</i>
-            Add new step
+          <label>
+            Instructions
+            <ul style={{ display: savedSteps.length > 0 ? "block" : "none" }}>
+              {savedSteps.map((savedStep, index) => (
+                <li key={index} className="steps-list">
+                  <section>
+                    <div className="button-rounded">{index + 1}</div>
+                    <div className="step-description">
+                      {savedStep.description}
+                    </div>
+                  </section>
+
+                  <div
+                    className="button-primary material-symbols-rounded"
+                    type="button"
+                    onClick={() => handleDeleteStep(index)}
+                  >
+                    Delete
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <div className="step-fields">
+              <input
+                type="text"
+                placeholder="Write a step description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+            <button
+              className="button-primary button-add"
+              type="button"
+              onClick={handleAddStep}
+            >
+              <i className="material-symbols-rounded">add</i>
+              Add new step
+            </button>
+          </label>
+
+          {/*--------------Tags Choice ---------------*/}
+          <>
+            <li className="chooseTagRow">
+              Cooking time:
+              {cookingTimeTags.map((tag) => (
+                <CategoryTag
+                  key={tag}
+                  tag={tag}
+                  selected={isTagSelected(tag)}
+                  onClick={() => toggleTagSelection(tag)}
+                />
+              ))}
+            </li>
+
+            <li className="chooseTagRow">
+              Type of protein:
+              {proteinTags.map((tag) => (
+                <CategoryTag
+                  key={tag}
+                  tag={tag}
+                  selected={isTagSelected(tag)}
+                  onClick={() => toggleTagSelection(tag)}
+                />
+              ))}
+            </li>
+          </>
+          <p className="text-error">{errorMessage}</p>
+          <button className="button-primary" type="submit">
+            Update recipe
           </button>
-        </label>
-
-        {/*--------------Tags Choice ---------------*/}
-        <>
-          <li className="chooseTagRow">
-            Cooking time:
-            {cookingTimeTags.map((tag) => (
-              <CategoryTag
-                key={tag}
-                tag={tag}
-                selected={isTagSelected(tag)}
-                onClick={() => toggleTagSelection(tag)}
-              />
-            ))}
-          </li>
-
-          <li className="chooseTagRow">
-            Type of protein:
-            {proteinTags.map((tag) => (
-              <CategoryTag
-                key={tag}
-                tag={tag}
-                selected={isTagSelected(tag)}
-                onClick={() => toggleTagSelection(tag)}
-              />
-            ))}
-          </li>
-        </>
-        <p className="text-error">{errorMessage}</p>
-        <button className="button-primary" type="submit">
-          Update recipe
-        </button>
-        <button className="button-primary button-outline-teal" type="button" onClick={handleCancel}>
-          Cancel
-        </button>
-      </form>
-    </section>
+          <button
+            className="button-primary button-outline-teal"
+            type="button"
+            onClick={handleCancel}
+          >
+            Cancel
+          </button>
+        </form>
+      </section>
     </>
   );
 }

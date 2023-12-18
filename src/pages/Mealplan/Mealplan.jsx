@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {deleteField, doc, getDoc, updateDoc } from "firebase/firestore";
+import { deleteField, doc, getDoc, updateDoc } from "firebase/firestore";
 import { mealplansRef } from "../../firebase-config";
 import MealplanCard from "../../components/MealplanCards/MealPlanCard";
 import NavBar from "../../components/NavBar/NavBar";
@@ -12,6 +12,7 @@ export default function Mealplan({ user, recipe, setCurrentMealPlanId }) {
   const { mealPlanId } = useParams(); // Get the mealPlanId from the URL
   const [mealPlanRecipes, setMealPlanRecipes] = useState([]);
 
+  // Fetch the meal plan from the database
   useEffect(() => {
     if (user) {
       const fetchMealPlan = async () => {
@@ -63,21 +64,24 @@ export default function Mealplan({ user, recipe, setCurrentMealPlanId }) {
     setIsModalOpen(false);
   };
 
-const confirmDeletion = async () => {
-  closeModal();
-  try {
-    const mealPlanDocRef = doc(mealplansRef, user.uid);
-    await updateDoc(mealPlanDocRef, {
-      [`mealPlans.${mealPlanId}`]: deleteField(), // Use deleteField to remove a specific field
-    });
-    console.log("Meal plan deleted successfully");
-    setCurrentMealPlanId(null); // Reset the current meal plan ID
+  // function to confirm deletion
+  const confirmDeletion = async () => {
+    closeModal();
+    try {
+      const mealPlanDocRef = doc(mealplansRef, user.uid);
+      await updateDoc(mealPlanDocRef, {
+        [`mealPlans.${mealPlanId}`]: deleteField(), // Use deleteField to remove a specific field
+      });
+      console.log("Meal plan deleted successfully");
+      setCurrentMealPlanId(null); // Reset the current meal plan ID
 
-    navigate("/"); // Navigate to the main page
-  } catch (error) {
-    console.error("Error deleting meal plan:", error);
-  }
-};
+      navigate("/"); // Navigate to the main page
+    } catch (error) {
+      console.error("Error deleting meal plan:", error);
+    }
+  };
+
+  //--------open recipe--------//
 
   const navigate = useNavigate();
   function openRecipe(recipeId) {
@@ -86,16 +90,24 @@ const confirmDeletion = async () => {
     navigate(`/recipes/${recipeId}`);
   }
 
+  //-----add ingredients to shopping list-----//
+
+  function addIngredientsToShoppingList() {
+    console.log("Adding ingredients to shopping list");
+    navigate("/shoppinglist");
+  }
+
   return (
     <>
-      <TopBar />
-      <section className="page">
+      <section className="page mealplan-page">
+        <TopBar />
         <MealplanModal
           isOpen={isModalOpen}
           onClose={closeModal}
           onConfirm={confirmDeletion}
         />
-        <h1 className="header">Your Meal Plan</h1>
+        <h1 className="header">Your meal plan</h1>
+        <p>Add recipes to your shopping list and get cooking!</p>
         <section className="mealplan-container">
           {mealPlanRecipes.map((recipe) => (
             <MealplanCard
@@ -113,7 +125,10 @@ const confirmDeletion = async () => {
         >
           Start new
         </button>
-        <button className="button-primary mealplan-button">
+        <button
+          className="button-primary mealplan-button"
+          onClick={addIngredientsToShoppingList}
+        >
           Add all to shopping list
         </button>
       </section>

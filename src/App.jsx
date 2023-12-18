@@ -24,46 +24,60 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(null); // New state for the user
   const [currentMealPlanId, setCurrentMealPlanId] = useState(null);
   const location = useLocation(); // Get the current location
+  const [isLoading, setIsLoading] = useState(true); // New loading state
+
+  const auth = getAuth();
+
+  const fetchCurrentMealPlanId = async (userId) => {
+    setIsLoading(true);
+    const userDocRef = doc(mealplansRef, userId);
+    const docSnap = await getDoc(userDocRef);
+    if (docSnap.exists() && docSnap.data().mealPlans) {
+      const mealPlans = docSnap.data().mealPlans;
+      const mealPlanIds = Object.keys(mealPlans);
+      if (mealPlanIds.length > 0) {
+        const latestMealPlanId = mealPlanIds[mealPlanIds.length - 1];
+        setCurrentMealPlanId(latestMealPlanId);
+      } else {
+        setCurrentMealPlanId(null);
+      }
+    } else {
+      setCurrentMealPlanId(null);
+    }
+    setIsLoading(false);
+  };
 
   // Handle user authentication
   useEffect(() => {
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        //user authenticated - signed in
-        setIsAuth(true); //set isAuth to true
-        localStorage.setItem("isAuth", true); //save isAuth to local storage
-        console.log(user);
-        setCurrentUser(user); // Set the user object
-
-        //fetch user mealplan data
-        const userDocRef = doc(mealplansRef, user.uid);
-        const docSnap = await getDoc(userDocRef);
-        if (docSnap.exists() && docSnap.data().mealPlans) {
-          const mealPlans = docSnap.data().mealPlans;
-          const mealPlanIds = Object.keys(mealPlans);
-          if (mealPlanIds.length > 0) {
-            const latestMealPlanId = mealPlanIds[mealPlanIds.length - 1]; //Get the latest meal plan
-            setCurrentMealPlanId(latestMealPlanId);
-          }
-        }
+        setIsAuth(true);
+        localStorage.setItem("isAuth", true);
+        setCurrentUser(user);
+        fetchCurrentMealPlanId(user.uid);
       } else {
-        // User not authenticated - signed out
-        setIsAuth(false); // Set isAuth to false
-        localStorage.removeItem("isAuth"); // Remove isAuth from local storage
-        setCurrentUser(null); // Reset the user object
+        setIsAuth(false);
+        localStorage.removeItem("isAuth");
+        setCurrentUser(null);
         setCurrentMealPlanId(null);
       }
     });
-    //  return () => unsubscribe();
-  }, []);
+
+    return () => unsubscribe();
+  }, [auth]);
+
+  // Update meal plan ID on location change
+  useEffect(() => {
+    if (currentUser) {
+      fetchCurrentMealPlanId(currentUser.uid);
+    }
+  }, [currentUser, location]);
 
   // private routes including nav bar
   const privateRoutes = (
     <>
-      <NavBar location={location} />
-      {/* Pass location to Nav component */}
+      <NavBar currentMealPlanId={currentMealPlanId} location={location} />
+
       <Routes>
         <Route
           path="/"
@@ -85,9 +99,8 @@ export default function App() {
             />
           }
         />
-        <Route path="/groceries" element={<ShoppingList />} />
+        <Route path="/shoppinglist" element={<ShoppingList />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/recipes" element={<Recipes />} />
         <Route path="/editrecipe/:recipeId" element={<EditRecipe />} />
         <Route path="recipes/:recipeId" element={<Recipe />} />
         <Route path="/addrecipe" element={<AddRecipe />} />
@@ -96,7 +109,6 @@ export default function App() {
       </Routes>
     </>
   );
-
   // public route, no nav bar
   const publicRoutes = (
     <Routes>
