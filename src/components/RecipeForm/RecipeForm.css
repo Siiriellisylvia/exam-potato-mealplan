@@ -5,7 +5,7 @@ form {
 }
 
 .visually-hidden {
-  display:none;
+  display: none;
 }
 
 input {
@@ -17,9 +17,8 @@ input {
   border: none;
   border-radius: 8px;
   font-size: var(--body-text-small-size);
-  color:var(--dark-teal);
+  color: var(--dark-teal);
   font-family: var(--body-font);
-  
 }
 
 input:focus {
@@ -42,8 +41,8 @@ legend {
   font-size: var(--subheading-size);
   color: var(--dark-text);
   font-weight: var(--font-weight-bold);
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
 }
 
 .addRecipe .image-preview {
@@ -68,7 +67,7 @@ legend {
   justify-content: space-between;
   padding-bottom: 0.5rem;
   font-size: var(--body-text-size);
-  width:100%
+  width: 100%;
 }
 
 .ingredient-list-edit {
@@ -77,8 +76,7 @@ legend {
   justify-content: space-between;
   padding-bottom: 0.5rem;
   font-size: var(--body-text-size);
-  width:100%;
-
+  width: 100%;
 }
 
 .ingredient-info {
@@ -103,9 +101,8 @@ legend {
 
 .button-save {
   font-size: var(--body-text-size);
-  font-family: var(--body-font)
+  font-family: var(--body-font);
 }
-
 
 .ingredient-buttons {
   display: flex;
@@ -141,6 +138,7 @@ legend {
   font-family: var(--body-font);
   font-weight: var(--font-weight-bold);
   color: var(--dark-text);
+  font-size:var(--body-text-size);
   height: 48px; /* Set the desired height */
   overflow-y: auto;
   white-space: nowrap;
@@ -158,7 +156,7 @@ ul {
   list-style-type: none;
   padding: 0;
   margin: 0.5rem 0rem 0rem 0rem;
-  width:100%
+  width: 100%;
 }
 
 .button-add {

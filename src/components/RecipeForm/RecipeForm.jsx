@@ -234,30 +234,26 @@ export default function RecipeForm({ saveRecipe, recipe }) {
   };
 
   return (
-    <div className="form-group">
       <form
         onSubmit={handleSubmit}
         className="addRecipe"
         aria-label="recipe form"
       >
-        <div className="form-group">
-          <label htmlFor="image-input" className="visually-hidden">
-            Upload Image
+
+<label>
+            <input
+              type="file"
+              className="file-input"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+            <img
+              className="image-preview"
+              src={image}
+              alt="Choose"
+              onError={(event) => (event.target.src = placeholderImage)}
+            />
           </label>
-          <input
-            type="file"
-            className="file-input"
-            accept="image/*"
-            onChange={handleImageChange}
-            aria-label="Recipe Image"
-          />
-          <img
-            className="image-preview"
-            src={image}
-            alt="preview of the recipe image"
-            onError={(event) => (event.target.src = placeholderImage)}
-          />
-        </div>
 
         <div className="form-group">
           <label htmlFor="recipe-name">Recipe name</label>
@@ -423,9 +419,8 @@ export default function RecipeForm({ saveRecipe, recipe }) {
         </div>
 
         {/*--------------Tags Choice ---------------*/}
-        <div className="tags-container">
-          <fieldset>
-            <legend>Instructions</legend>
+          <label>
+            Categories</label>
             <div className="chooseTagRow" aria-label="Cooking Time Tags">
               Cooking time:
               {cookingTimeTags.map((tag) => (
@@ -449,8 +444,6 @@ export default function RecipeForm({ saveRecipe, recipe }) {
                 />
               ))}
             </div>
-          </fieldset>
-        </div>
         <p className="text-error" aria-live="polite">
           {errorMessage}
         </p>
@@ -458,6 +451,5 @@ export default function RecipeForm({ saveRecipe, recipe }) {
           Add recipe
         </button>
       </form>
-    </div>
   );
 }
